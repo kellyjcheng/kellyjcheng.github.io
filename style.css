@@ -282,7 +282,8 @@ nav a.active {
   margin-top: 0.6rem;
 }
 
-.home-hero p:not(.home-subtitle) {
+.home-hero p:not(.home-subtitle),
+.about-bio p:not(.home-subtitle) {
   font-family: 'Rajdhani', sans-serif;
   font-size: 0.92rem;
   font-weight: 400;
@@ -291,7 +292,8 @@ nav a.active {
   margin-top: 0.75rem;
 }
 
-.home-hero p:not(.home-subtitle) strong {
+.home-hero p:not(.home-subtitle) strong,
+.about-bio p:not(.home-subtitle) strong {
   color: var(--accent2);
   font-weight: 700;
 }
@@ -440,26 +442,9 @@ nav a.active {
 }
 
 .about-bio {
-  padding: 0 4rem 2.5rem;
+  padding: 0 4rem 4rem;
   display: flex;
-  justify-content: center;
-}
-
-.bio-card {
-  max-width: 780px;
-  width: 100%;
-  text-align: center;
-  padding: 2rem 2.5rem;
-}
-
-.bio-card h3 {
-  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
-  margin-bottom: 0.85rem;
-}
-
-.bio-card p {
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  line-height: 1.75;
+  flex-direction: column;
 }
 
 .about-sections {
@@ -588,8 +573,5 @@ nav a.active {
   }
   .contact-grid {
     grid-template-columns: 1fr;
-  }
-  .bio-card {
-    padding: 1.5rem 1.25rem;
   }
 }
