@@ -1,28 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Documentation | Kelly Cheng</title>
-    <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Documentation | Kelly Cheng</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body { background-image: url('../images/cyber-bg.jpg'); }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="../index.html">Home</a>
-        <a href="../labs-projects/index.html">Labs & Projects</a>
-        <a href="index.html">Documentation</a>
-        <a href="../about/index.html">About Me</a>
-    </nav>
 
-    <div class="container">
-        <header><h1>Technical Documentation</h1></header>
-        <h3>Project & Lab Documentation</h3>
-        <ul>
-            <li><a href="#" style="color:#38bdf8;">Nginx Hardening Guide</a></li>
-            <li><a href="#" style="color:#38bdf8;">Wireshark Analysis Report</a></li>
-        </ul>
-        <br>
-        <h3>Misc. Documentation</h3>
-        <p>Coming soon...</p>
-    </div>
+  <!-- ── Navigation ── -->
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../labs/index.html">Labs &amp; Projects</a></li>
+      <li><a href="index.html" class="active">Documentation</a></li>
+      <li><a href="../aboutme/index.html">About Me</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <!-- ── Hero ── -->
+    <section class="docs-hero">
+      <h1 class="page-title">Documentation</h1>
+    </section>
+
+    <!-- ── Two-column layout ── -->
+    <section class="docs-columns">
+
+      <!-- ── Project & Lab Documentation ── -->
+      <div>
+        <h2 class="section-heading">Project &amp; Lab Documentation</h2>
+        <div class="cards-scroll">
+          <div class="cards-grid" style="grid-template-columns: 1fr;">
+
+            <!-- Linux Server Hardening doc -->
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">Linux Server Hardening</div>
+                <div class="card-desc">Full write-up of the Nginx server hardening lab: firewall rules, service configurations, and security decisions.</div>
+                <div class="card-links">
+                  <a class="pill" href="#" target="_blank" rel="noopener">View Docs</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Network Traffic Analysis doc -->
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title">Network Traffic Analysis</div>
+                <div class="card-desc">Wireshark capture analysis: methodology, identified anomalies, and remediation notes.</div>
+                <div class="card-links">
+                  <a class="pill" href="#" target="_blank" rel="noopener">View Docs</a>
+                </div>
+              </div>
+            </div>
+
+            <!--
+              ADD MORE DOCS BELOW as new labs/projects are documented.
+              Template:
+
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title">Lab / Project Name</div>
+                  <div class="card-desc">Brief description of the documentation.</div>
+                  <div class="card-links">
+                    <a class="pill" href="LINK_TO_DOC" target="_blank" rel="noopener">View Docs</a>
+                  </div>
+                </div>
+              </div>
+            -->
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Misc. Documentation ── -->
+      <div>
+        <h2 class="section-heading">Misc. Documentation</h2>
+        <div class="cards-scroll">
+          <div class="cards-grid" style="grid-template-columns: 1fr;">
+
+            <!-- Placeholder 1 -->
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title" style="color: rgba(255,255,255,0.3);">Coming Soon</div>
+                <div class="card-desc" style="color: rgba(176,216,239,0.3);">Miscellaneous documentation will appear here.</div>
+              </div>
+            </div>
+
+            <!-- Placeholder 2 -->
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title" style="color: rgba(255,255,255,0.3);">Coming Soon</div>
+                <div class="card-desc" style="color: rgba(176,216,239,0.3);">Miscellaneous documentation will appear here.</div>
+              </div>
+            </div>
+
+            <!--
+              ADD MISC DOCS BELOW.
+              Examples: tool setup guides, cheat sheets, notes, references, etc.
+            -->
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
 </body>
 </html>
