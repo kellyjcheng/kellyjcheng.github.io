@@ -1,0 +1,119 @@
+:root {
+    --primary: #2563eb;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 2rem;
+}
+
+/* Navigation */
+nav {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
+.hero h3 { color: var(--primary); margin-bottom: 1.5rem; }
+
+/* Grid & Cards */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.card:hover { transform: translateY(-5px); }
+
+.card-img {
+    height: 180px;
+    background: #cbd5e1; /* Placeholder color */
+    background-size: cover;
+}
+
+.card-body { padding: 1.5rem; }
+
+.links {
+    margin-top: 1rem;
+    display: flex;
+    gap: 15px;
+}
+
+.links a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* Socials */
+.social-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.social-link {
+    text-decoration: none;
+    color: var(--dark);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.placeholder {
+    padding: 3rem;
+    border: 2px dashed #cbd5e1;
+    text-align: center;
+    color: var(--gray);
+    border-radius: 12px;
+}
