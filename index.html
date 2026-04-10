@@ -1,97 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<header class="hero-section">
-    <h1>Kelly Cheng</h1>
-    <p>Computer Science Student | Penetration Testing & Purple Teaming Enthusiast</p>
-    </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kelly Cheng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-    <nav class="light-banner">
-        <div class="nav-flex">
-            <a href="/" class="logo">Kelly Cheng</a>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/labs">Labs</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/aboutme">About Me</a></li>
-            </ul>
-        </div>
-    </nav>
-    <div class="container">
-        <h1>Featured Work</h1>
-        <div class="grid">
+<nav>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="labs-projects/index.html">Labs & Projects</a></li>
+        <li><a href="documentation/index.html">Documentation</a></li>
+        <li><a href="aboutme/index.html">About Me</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <h1>Kelly Cheng</h1>
+    <p>Computer Science Student | Penetration Testing & Purple Teaming Enthusiast</p>
+</section>
+
+<section class="content">
+    <h2>Cybersecurity Lab Highlights</h2>
+    <div class="card-container">
+        <!-- Example Card -->
+        <div class="card">
+            <h3>Nginx Hardening</h3>
+            <div class="links">
+                <a href="#" class="circle">G</a>
+                <a href="#" class="circle">D</a>
             </div>
+        </div>
     </div>
 
-    <main class="dark-page">
-        <header id="home" class="container hero">
-            <h1>Kelly Cheng</h1>
-            <h3>Computer Security Specialist | Systems Security Analyst | Penetration Tester</h3>
-            <p>I’m a first-year CS student at the University of Washington. I focus on strengthening my technical skills through hands-on labs, server hardening, and network analysis.</p>
-        </header>
-
-        <section id="labs" class="container">
-            <h2>Cybersecurity Labs</h2>
-            <div class="grid">
-                <div class="card">
-                    <div class="card-img-wrap">
-                        <img src="https://bloximages.newyork1.vip.townnews.com/redandblack.com/content/tncms/assets/v3/editorial/4/59/45940eb2-5403-11e9-a843-db0e4491cc90/5ca13d8453042.image.jpg" 
-                             alt="Linux VM Terminal and Hardening" 
-                             class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <h4>Linux Server Hardening</h4>
-                        <p>Secured an Nginx server on a Linux VM, configuring firewalls and hardening service configurations.</p>
-                    </div>
-                    <div class="card-links">
-                        <a href="https://github.com/kellyjcheng/kellyjcheng.github.io">Repo</a>
-                        <a href="docs/server-hardening.md">Documentation</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-img-wrap">
-                        <img src="https://imagedelivery.net/GtU8Bnoa3QuAEdxQ_M9RPA/f2086934-c482-45d3-7181-8e195a1f9f00/width=480,quality=75,format=auto" 
-                             alt="Wireshark Network Packet Analysis" 
-                             class="card-img">
-                    </div>
-                    <div class="card-body">
-                        <h4>Network Traffic Analysis</h4>
-                        <p>Analyzed network traffic captures using Wireshark to identify potential security vulnerabilities.</p>
-                    </div>
-                    <div class="card-links">
-                        <a href="https://github.com/kellyjcheng/kellyjcheng.github.io">Repo</a>
-                        <a href="docs/network-analysis.md">Documentation</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="projects" class="container">
-            <h2>CS Projects</h2>
-            <div class="placeholder">
-                <p><i class="fas fa-code"></i> Projects currently in development. Stay tuned!</p>
-            </div>
-        </section>
-
-        <footer id="connect" class="container">
-            <h2>Connect With Me</h2>
-            <div class="social-grid">
-                <a href="mailto:kellyjcheng@gmail.com" class="social-link">
-                    <i class="fas fa-envelope"></i> kellyjcheng@gmail.com
-                </a>
-                <a href="https://www.linkedin.com/in/kellycheng06" class="social-link">
-                    <i class="fab fa-linkedin"></i> kellycheng06
-                </a>
-                <a href="https://github.com/kellyjcheng" class="social-link">
-                    <i class="fab fa-github"></i> kellyjcheng
-                </a>
-                <a href="https://www.instagram.com/kellyjcheng/" class="social-link">
-                    <i class="fab fa-instagram"></i> kellyjcheng
-                </a>
-            </div>
-        </footer>
-    </main>
+    <h2>CS Project Highlights</h2>
+    <div class="card-container">
+        <!-- Empty for now -->
+    </div>
+</section>
 
 </body>
 </html>
