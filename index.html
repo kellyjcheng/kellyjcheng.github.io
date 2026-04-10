@@ -5,46 +5,63 @@
     <title>Kelly Cheng | Portfolio</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="home-page">
     <nav>
-        <a href="index.html">Home</a>
-        <a href="labs-projects/index.html">Labs & Projects</a>
-        <a href="documentation/index.html">Documentation</a>
-        <a href="about/index.html">About Me</a>
+        <ul>
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="labs-projects/index.html">Labs & Projects</a></li>
+            <li><a href="documentation/index.html">Documentation</a></li>
+            <li><a href="about/index.html">About Me</a></li>
+        </ul>
     </nav>
 
-    <div class="container">
-        <header>
-            <h1>Kelly Cheng</h1>
-            <p>Computer Science Student | Penetration Testing & Purple Teaming Enthusiast</p>
+    <div class="page">
+        <header class="home-hero">
+            <h1 class="home-name">Kelly Cheng</h1>
+            <p class="home-subtitle">Computer Science Student | Penetration Testing & Purple Teaming Enthusiast</p>
         </header>
 
-        <h2>Cybersecurity Lab Highlights</h2>
-        <div class="grid">
-            <div class="card">
-                <div class="card-img"><img src="linux-logo.png" alt="Linux"></div>
-                <div class="card-content">
-                    <h3>Linux Server Hardening</h3>
-                    <p>Secured an Nginx server on a Linux VM, configuring firewalls and hardening service configurations[cite: 37].</p>
-                    <div class="link-group">
-                        <a href="#" class="bubble-link">Repo</a>
-                        <a href="documentation/index.html" class="bubble-link">Documentation</a>
+        <main class="home-highlights">
+            <section>
+                <h2 class="section-heading">Cybersecurity Lab Highlights</h2>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-img"><img src="linux-logo.png" alt="Linux"></div>
+                        <div class="card-body">
+                            <h3 class="card-title">Linux Server Hardening</h3>
+                            <p class="card-desc">Secured an Nginx server on a Linux VM, configuring firewalls and hardening service configurations.</p>
+                            <div class="card-links">
+                                <a href="#" class="pill">Repo</a>
+                                <a href="documentation/index.html" class="pill">Documentation</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="card">
-                <div class="card-img"><img src="network-icon.png" alt="Network"></div>
-                <div class="card-content">
-                    <h3>Network Traffic Analysis</h3>
-                    <p>Analyzed network traffic captures using Wireshark to identify potential security vulnerabilities[cite: 37].</p>
-                    <div class="link-group">
-                        <a href="#" class="bubble-link">Repo</a>
-                        <a href="documentation/index.html" class="bubble-link">Documentation</a>
+                    <div class="card">
+                        <div class="card-img"><img src="network-icon.png" alt="Network"></div>
+                        <div class="card-body">
+                            <h3 class="card-title">Network Traffic Analysis</h3>
+                            <p class="card-desc">Analyzed network traffic captures using Wireshark to identify potential security vulnerabilities.</p>
+                            <div class="card-links">
+                                <a href="#" class="pill">Repo</a>
+                                <a href="documentation/index.html" class="pill">Documentation</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            <section>
+                <h2 class="section-heading">CS Project Highlights</h2>
+                <div class="cards-grid">
+                    <div class="card empty-card">
+                        <div class="card-body">
+                            <p class="card-desc">Projects currently in development. Stay tuned!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
 </body>
 </html>
