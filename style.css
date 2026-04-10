@@ -1,106 +1,428 @@
-/* --- Navigation Fix --- */
+/* =============================================
+   Kelly Cheng – Personal Site | style.css
+   Shared across all pages
+   ============================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* ---------- CSS Variables ---------- */
+:root {
+  --card-bg:      rgba(7, 78, 108, 0.88);
+  --card-hover:   rgba(10, 100, 138, 0.95);
+  --pill-bg:      rgba(60, 150, 200, 0.55);
+  --pill-hover:   rgba(80, 180, 230, 0.75);
+  --nav-bg:       rgba(1, 10, 25, 0.78);
+  --accent:       #4eb8e0;
+  --accent2:      #7dd4f0;
+  --text:         #ffffff;
+  --subtext:      #b0d8ef;
+  --section-link: #5dcbf0;
+}
+
+/* ---------- Reset & Base ---------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+body {
+  background: url('../images/cyber-bg.jpg') center center / cover fixed no-repeat;
+  min-height: 100vh;
+}
+
+/* For sub-pages the bg path differs */
+body.subpage {
+  background-image: url('../../images/cyber-bg.jpg');
+}
+
+/* Dark overlay so text is always readable */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(1, 8, 22, 0.55);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---------- Navigation ---------- */
 nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    background: rgba(1, 10, 25, 0.9);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0 4rem;
-    z-index: 1000;
-    border-bottom: 1px solid rgba(78, 184, 224, 0.2);
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: var(--nav-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(78, 184, 224, 0.18);
+  z-index: 100;
+  padding: 0 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 60px;
 }
 
 nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+nav ul li {
+  display: flex;
+  align-items: center;
+}
+
+nav ul li:not(:last-child)::after {
+  content: '|';
+  margin-left: 0.4rem;
+  color: rgba(78, 184, 224, 0.4);
+  font-weight: 300;
 }
 
 nav a {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    transition: 0.3s;
+  color: var(--text);
+  text-decoration: none;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
 }
 
-nav a:hover, nav a.active {
-    color: #4eb8e0;
+nav a:hover,
+nav a.active {
+  color: var(--accent);
 }
 
-/* --- Proportional Grid & Cards --- */
-.home-highlights {
-    display: flex; /* Using flex for the two main columns */
-    justify-content: space-between;
-    gap: 4%;
-    padding: 2rem 4rem;
+/* ---------- Page Wrapper ---------- */
+.page {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding-top: 60px; /* nav height */
 }
 
-.highlight-column {
-    flex: 1; /* Columns take equal space */
+/* ---------- Section headings (styled as underlined links like in design) ---------- */
+.section-heading {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--section-link);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(93, 203, 240, 0.6);
+  margin-bottom: 1rem;
+  text-transform: uppercase;
 }
 
+/* ---------- Project / Lab Cards ---------- */
 .cards-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
 }
 
 .card {
-    background: rgba(7, 78, 108, 0.5);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(78, 184, 224, 0.3);
-    border-radius: 12px;
-    
-    /* Proportional Width: Adjusts based on the container size */
-    width: calc(50% - 0.75rem); 
-    min-width: 200px; /* Prevents cards from getting too tiny on mobile */
-    
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-    overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid rgba(78, 184, 224, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
 }
 
 .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 30px rgba(0, 168, 255, 0.3);
-    border-color: #4eb8e0;
+  background: var(--card-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
 }
 
 .card-img {
-    width: 100%;
-    aspect-ratio: 16 / 9; /* Keeps the image box proportional */
-    background: #001a2c;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  display: block;
+  background: rgba(5, 55, 80, 0.7);
 }
 
-.card-img img {
-    max-width: 60%;
-    opacity: 0.8;
+.card-img-placeholder {
+  width: 100%;
+  height: 110px;
+  background: rgba(5, 55, 80, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.15);
+  font-size: 2rem;
 }
 
-/* --- Hero Section Text --- */
+.card-body {
+  padding: 0.7rem 0.8rem 0.9rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.card-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.card-desc {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--subtext);
+  line-height: 1.4;
+  flex: 1;
+}
+
+.card-links {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Pill buttons */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--pill-bg);
+  border: 1px solid rgba(78, 184, 224, 0.35);
+  border-radius: 50px;
+  padding: 0.25rem 0.75rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.pill:hover {
+  background: var(--pill-hover);
+  border-color: rgba(78, 184, 224, 0.7);
+}
+
+/* ---------- Scrollable card container ---------- */
+.cards-scroll {
+  max-height: 460px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.cards-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.cards-scroll::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 3px;
+}
+.cards-scroll::-webkit-scrollbar-thumb {
+  background: rgba(78, 184, 224, 0.4);
+  border-radius: 3px;
+}
+
+/* ============================================================
+   Page-specific overrides (applied via body class)
+   ============================================================ */
+
+/* ---------- HOME PAGE ---------- */
 .home-hero {
-    padding: 100px 4rem 20px;
+  padding: 3.5rem 4rem 2rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .home-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 8vw, 7rem);
-    color: #fff;
-    margin: 0;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 10vw, 8.5rem);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
 }
 
 .home-subtitle {
-    color: #b0d8ef;
-    font-size: 1.1rem;
-    margin-top: -5px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  font-weight: 500;
+  color: var(--subtext);
+  letter-spacing: 0.04em;
+  margin-top: 0.6rem;
+}
+
+.home-highlights {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  padding: 2rem 4rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .home-highlights {
+    grid-template-columns: 1fr;
+    padding: 2rem 1.5rem;
+  }
+  .home-hero {
+    padding: 2.5rem 1.5rem 1.5rem;
+  }
+}
+
+/* ---------- LABS & PROJECTS PAGE ---------- */
+.labs-hero {
+  padding: 3.5rem 4rem 1.5rem;
+}
+
+.page-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 8vw, 7rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+  margin-bottom: 1rem;
+}
+
+.labs-intro {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--subtext);
+  max-width: 860px;
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+
+.labs-intro strong {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.labs-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  padding: 0 4rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .labs-hero, .labs-columns {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .labs-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- DOCUMENTATION PAGE ---------- */
+.docs-hero {
+  padding: 3.5rem 4rem 1.5rem;
+}
+
+.docs-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  padding: 0 4rem 3rem;
+}
+
+@media (max-width: 768px) {
+  .docs-hero, .docs-columns {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .docs-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- ABOUT ME PAGE ---------- */
+.about-hero {
+  padding: 3.5rem 4rem 2rem;
+}
+
+.about-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  padding: 0 4rem 3rem;
+}
+
+.about-section-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--section-link);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(93, 203, 240, 0.5);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.about-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(78, 184, 224, 0.2);
+  border-radius: 10px;
+  padding: 1.4rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.about-card h3 {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--accent2);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.about-card p {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--subtext);
+  line-height: 1.6;
+}
+
+.about-card p strong {
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .about-hero, .about-sections {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .about-sections {
+    grid-template-columns: 1fr;
+  }
 }
