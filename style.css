@@ -280,7 +280,7 @@ nav a.active {
 }
 
 .home-hero p:not(.home-subtitle),
-.about-bio p:not(.home-subtitle) {
+.about-hero p:not(.home-subtitle) {
   font-family: 'Rajdhani', sans-serif;
   font-size: 0.92rem;
   font-weight: 400;
@@ -290,7 +290,7 @@ nav a.active {
 }
 
 .home-hero p:not(.home-subtitle) strong,
-.about-bio p:not(.home-subtitle) strong {
+.about-hero p:not(.home-subtitle) strong {
   color: var(--accent2);
   font-weight: 700;
 }
@@ -435,11 +435,7 @@ nav a.active {
 
 /* ---------- ABOUT ME PAGE ---------- */
 .about-hero {
-  padding: 3.5rem 4rem 2rem;
-}
-
-.about-bio {
-  padding: 0 4rem 4rem;
+  padding: 3.5rem 4rem 4rem;
 }
 
 .clear-float {
@@ -449,8 +445,8 @@ nav a.active {
 .photo-gallery {
   float: right;
   position: relative;
-  width: 874px;
-  height: 782px;
+  width: 720px;
+  height: 760px;
   margin-left: 2.5rem;
   margin-bottom: 1rem;
 }
@@ -607,7 +603,7 @@ nav a.active {
 }
 
 @media (max-width: 768px) {
-  .about-hero, .about-bio, .about-sections, .contact-section {
+  .about-hero, .about-sections, .contact-section {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
