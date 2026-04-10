@@ -436,44 +436,43 @@ nav a.active {
 /* ---------- ABOUT ME PAGE ---------- */
 .about-hero {
   padding: 3.5rem 4rem 2rem;
-  position: relative;
-  min-height: 360px;
 }
 
 .about-bio {
   padding: 0 4rem 4rem;
-  display: flex;
-  flex-direction: column;
+}
+
+.clear-float {
+  clear: both;
 }
 
 .photo-gallery {
-  position: absolute;
-  top: 2.75rem;
-  right: 4rem;
-  width: 380px;
-  height: 340px;
-  pointer-events: none;
+  float: right;
+  position: relative;
+  width: 874px;
+  height: 782px;
+  margin-left: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .gallery-img {
   position: absolute;
   object-fit: cover;
   object-position: center;
-  pointer-events: auto;
   animation: blob-morph 9s ease-in-out infinite;
 }
 
 .gallery-img:nth-child(1) {
-  width: 265px;
-  height: 265px;
+  width: 610px;
+  height: 610px;
   top: 0;
   left: 0;
   z-index: 1;
 }
 
 .gallery-img:nth-child(2) {
-  width: 215px;
-  height: 215px;
+  width: 495px;
+  height: 495px;
   bottom: 0;
   right: 0;
   z-index: 2;
@@ -611,9 +610,6 @@ nav a.active {
   .about-hero, .about-bio, .about-sections, .contact-section {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-  }
-  .about-hero {
-    min-height: unset;
   }
   .about-sections {
     grid-template-columns: 1fr;
