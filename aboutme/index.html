@@ -1,32 +1,95 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>About Me | Kelly Cheng</title>
-    <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me | Kelly Cheng</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body { background-image: url('../images/cyber-bg.jpg'); }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="../index.html">Home</a>
-        <a href="../labs-projects/index.html">Labs & Projects</a>
-        <a href="../documentation/index.html">Documentation</a>
-        <a href="index.html">About Me</a>
-    </nav>
 
-    <div class="container">
-        <header><h1>About Me</h1></header>
-        
-        <section>
-            <h2>Technical Profile</h2>
-            <p>Currently focused on building a robust foundation in cybersecurity and software development[cite: 36]. I specialize in documenting the technical "why" behind security insights[cite: 48].</p>
-        </section>
+  <!-- ── Navigation ── -->
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../labs/index.html">Labs &amp; Projects</a></li>
+      <li><a href="../docs/index.html">Documentation</a></li>
+      <li><a href="index.html" class="active">About Me</a></li>
+    </ul>
+  </nav>
 
-        <section style="margin-top:30px;">
-            <h2>Beyond the Screen</h2>
-            <p><strong>Athletics:</strong> I am a competitive swimmer and tennis player. The persistence required to debug a kernel error is what drives me to shave seconds off a lap time[cite: 53].</p>
-            <p><strong>Global Exploration:</strong> I have a deep-seated love for travel, specifically the cultures of Scandinavia and Iceland[cite: 54].</p>
-            <p><strong>Culinary Arts:</strong> I enjoy the precision of Japanese fusion and recreating complex restaurant recipes at home[cite: 56].</p>
-        </section>
-    </div>
+  <div class="page">
+
+    <!-- ── Hero ── -->
+    <section class="about-hero">
+      <h1 class="page-title">About Me</h1>
+    </section>
+
+    <!-- ── Two-column layout ── -->
+    <section class="about-sections">
+
+      <!-- Technical Profile -->
+      <div>
+        <h2 class="about-section-title">Technical Profile</h2>
+
+        <div class="about-card">
+          <h3>Cybersecurity Research &amp; Labs</h3>
+          <p>
+            I actively engage in hands-on security labs focused on
+            <strong>Linux systems administration</strong>, <strong>Nginx server hardening</strong>,
+            and <strong>network traffic analysis</strong>. I specialize in documenting the technical
+            "why"—translating complex packet captures and firewall configurations into actionable
+            security insights.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>Modern Development Workflow</h3>
+          <p>
+            My projects are built within <strong>VS Code</strong> using a hybrid development model.
+            I combine raw logic with AI-integrated workflows, utilizing <strong>Claude</strong> and
+            <strong>GitHub Copilot</strong> to accelerate boilerplate tasks while maintaining a strict
+            manual audit for security and code integrity.
+          </p>
+        </div>
+      </div>
+
+      <!-- Beyond the Screen -->
+      <div>
+        <h2 class="about-section-title">Beyond the Screen</h2>
+
+        <div class="about-card">
+          <h3>Athletics</h3>
+          <p>
+            I am a competitive <strong>swimmer and tennis player</strong>. The same persistence
+            required to debug a kernel error or harden a server is what drives me to shave seconds
+            off a lap time or refine my serve.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>Global Exploration</h3>
+          <p>
+            I have a deep-seated love for travel, with a particular interest in the landscapes and
+            cultures of <strong>Scandinavia and Iceland</strong>. I view traveling much like a new
+            project: it requires meticulous planning, adaptability, and an eagerness to learn new systems.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>Culinary Arts</h3>
+          <p>
+            Outside of tech and sports, I enjoy the precision of cooking—specifically experimenting
+            with <strong>Japanese fusion</strong> and recreating complex restaurant recipes at home.
+          </p>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
 </body>
 </html>
