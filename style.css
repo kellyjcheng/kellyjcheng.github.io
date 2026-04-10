@@ -445,8 +445,8 @@ nav a.active {
 .photo-gallery {
   float: right;
   position: relative;
-  width: 720px;
-  height: 760px;
+  width: 600px;
+  height: 1015px;
   margin-left: 2.5rem;
   margin-bottom: 1rem;
 }
@@ -459,18 +459,20 @@ nav a.active {
 }
 
 .gallery-img:nth-child(1) {
-  width: 610px;
-  height: 610px;
+  width: 549px;
+  height: 549px;
   top: 0;
-  left: 0;
+  right: 0;
+  left: auto;
   z-index: 1;
 }
 
 .gallery-img:nth-child(2) {
-  width: 495px;
-  height: 495px;
+  width: 446px;
+  height: 446px;
   bottom: 0;
-  right: 0;
+  left: 0;
+  right: auto;
   z-index: 2;
   animation-delay: -4.5s;
 }
