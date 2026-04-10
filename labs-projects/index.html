@@ -1,27 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Labs & Projects | Kelly Cheng</title>
-    <link rel="stylesheet" href="../style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Labs &amp; Projects | Kelly Cheng</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body { background-image: url('../images/cyber-bg.jpg'); }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="../index.html">Home</a>
-        <a href="index.html">Labs & Projects</a>
-        <a href="../documentation/index.html">Documentation</a>
-        <a href="../about/index.html">About Me</a>
-    </nav>
 
-    <div class="container">
-        <h2>Cybersecurity Labs</h2>
-        <div class="grid">
+  <!-- ── Navigation ── -->
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="index.html" class="active">Labs &amp; Projects</a></li>
+      <li><a href="../docs/index.html">Documentation</a></li>
+      <li><a href="../aboutme/index.html">About Me</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+
+    <!-- ── Hero ── -->
+    <section class="labs-hero">
+      <h1 class="page-title">Labs &amp; Projects</h1>
+      <p class="labs-intro">
+        Currently focused on building a robust foundation in cybersecurity and software development.
+        My workflow involves executing hands-on security labs—including
+        <strong>server hardening (Nginx)</strong> and <strong>network traffic analysis (Wireshark)</strong>—while
+        maintaining a diverse portfolio of CS projects. I leverage a modern development stack in
+        <strong>VS Code</strong>, utilizing a hybrid coding approach that integrates raw logic with
+        AI-assisted workflows through <strong>Claude</strong> and <strong>GitHub Copilot</strong> to
+        optimize code efficiency and security.
+      </p>
+    </section>
+
+    <!-- ── Two-column layout ── -->
+    <section class="labs-columns">
+
+      <!-- ── Cybersecurity Labs ── -->
+      <div>
+        <h2 class="section-heading">Cybersecurity Labs</h2>
+        <div class="cards-scroll">
+          <div class="cards-grid" style="grid-template-columns: 1fr;">
+
+            <!-- Linux Server Hardening -->
+            <div class="card">
+              <img
+                class="card-img"
+                src="../images/linux-card.png"
+                alt="Linux Server Hardening"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              />
+              <div class="card-img-placeholder" style="display:none;">🐧</div>
+              <div class="card-body">
+                <div class="card-title">Linux Server Hardening</div>
+                <div class="card-desc">Secured an Nginx server on a Linux VM, configuring firewalls and hardening service configurations.</div>
+                <div class="card-links">
+                  <a class="pill" href="https://github.com/YOUR_USERNAME/linux-hardening" target="_blank" rel="noopener">Repo</a>
+                  <a class="pill" href="../docs/index.html">Documentation</a>
+                </div>
+              </div>
             </div>
 
-        <h2 style="margin-top:50px;">CS Projects</h2>
-        <div class="grid">
-            <p>Projects coming soon...</p>
+            <!-- Network Traffic Analysis -->
+            <div class="card">
+              <img
+                class="card-img"
+                src="../images/wireshark-card.png"
+                alt="Network Traffic Analysis"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+              />
+              <div class="card-img-placeholder" style="display:none;">🔍</div>
+              <div class="card-body">
+                <div class="card-title">Network Traffic Analysis</div>
+                <div class="card-desc">Analyzed network traffic captures using Wireshark to identify potential security vulnerabilities.</div>
+                <div class="card-links">
+                  <a class="pill" href="https://github.com/YOUR_USERNAME/network-analysis" target="_blank" rel="noopener">Repo</a>
+                  <a class="pill" href="../docs/index.html">Documentation</a>
+                </div>
+              </div>
             </div>
-    </div>
+
+            <!--
+              ADD MORE LAB CARDS BELOW by copying the block above.
+              The container will scroll vertically as you add more.
+            -->
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CS Projects ── -->
+      <div>
+        <h2 class="section-heading">CS Projects</h2>
+        <div class="cards-scroll">
+          <div class="cards-grid" style="grid-template-columns: 1fr;">
+
+            <!-- Blank placeholder 1 -->
+            <div class="card">
+              <div class="card-img-placeholder">💻</div>
+              <div class="card-body">
+                <div class="card-title" style="color: rgba(255,255,255,0.3);">Coming Soon</div>
+                <div class="card-desc" style="color: rgba(176,216,239,0.3);">Project details will be added here.</div>
+              </div>
+            </div>
+
+            <!-- Blank placeholder 2 -->
+            <div class="card">
+              <div class="card-img-placeholder">💻</div>
+              <div class="card-body">
+                <div class="card-title" style="color: rgba(255,255,255,0.3);">Coming Soon</div>
+                <div class="card-desc" style="color: rgba(176,216,239,0.3);">Project details will be added here.</div>
+              </div>
+            </div>
+
+            <!--
+              ADD MORE PROJECT CARDS BELOW.
+              Template for a project with links:
+
+              <div class="card">
+                <img class="card-img" src="../images/YOUR-IMAGE.png" alt="Project Name"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <div class="card-img-placeholder" style="display:none;">💻</div>
+                <div class="card-body">
+                  <div class="card-title">Project Name</div>
+                  <div class="card-desc">Short project description here.</div>
+                  <div class="card-links">
+                    <a class="pill" href="https://github.com/YOUR_USERNAME/repo" target="_blank" rel="noopener">Repo</a>
+                    <a class="pill" href="../docs/index.html">Documentation</a>
+                  </div>
+                </div>
+              </div>
+            -->
+
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </div>
+
 </body>
 </html>
