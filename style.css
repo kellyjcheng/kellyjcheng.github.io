@@ -144,7 +144,6 @@ nav a.active {
   transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
   display: flex;
   flex-direction: column;
-  aspect-ratio: 2/3;
 }
 
 .card:hover {
@@ -180,7 +179,6 @@ nav a.active {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  overflow: hidden;
 }
 
 .card-title {
@@ -199,7 +197,6 @@ nav a.active {
   color: var(--subtext);
   line-height: 1.4;
   flex: 1;
-  overflow: hidden;
 }
 
 .card-links {
@@ -447,6 +444,21 @@ nav a.active {
   flex-direction: column;
 }
 
+.photo-gallery {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.gallery-img {
+  flex: 1;
+  min-width: 0;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(78, 184, 224, 0.15);
+}
+
 .about-sections {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -515,8 +527,8 @@ nav a.active {
 }
 
 .contact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.25rem;
 }
 
@@ -524,11 +536,13 @@ nav a.active {
   background: var(--card-bg);
   border: 1px solid rgba(78, 184, 224, 0.2);
   border-radius: 10px;
-  padding: 1.75rem 1.5rem;
+  padding: 1.4rem 1.25rem;
+  width: 150px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.55rem;
+  gap: 0.45rem;
   text-decoration: none;
   transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
 }
@@ -569,9 +583,6 @@ nav a.active {
     padding-right: 1.5rem;
   }
   .about-sections {
-    grid-template-columns: 1fr;
-  }
-  .contact-grid {
     grid-template-columns: 1fr;
   }
 }
