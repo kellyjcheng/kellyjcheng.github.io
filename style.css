@@ -343,6 +343,54 @@ nav a.active {
   font-weight: 700;
 }
 
+.tech-stack {
+  padding: 0 4rem 2.5rem;
+}
+
+.tech-stack-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.tech-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.tech-group-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-transform: uppercase;
+  min-width: 110px;
+  padding-top: 0.22rem;
+  flex-shrink: 0;
+}
+
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  background: var(--pill-bg);
+  border: 1px solid rgba(78, 184, 224, 0.35);
+  border-radius: 50px;
+  padding: 0.2rem 0.7rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
 .labs-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -351,12 +399,16 @@ nav a.active {
 }
 
 @media (max-width: 768px) {
-  .labs-hero, .labs-columns {
+  .labs-hero, .tech-stack, .labs-columns {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
   .labs-columns {
     grid-template-columns: 1fr;
+  }
+  .tech-group {
+    flex-direction: column;
+    gap: 0.4rem;
   }
 }
 
@@ -437,12 +489,81 @@ nav a.active {
   font-weight: 700;
 }
 
+.about-card p + p {
+  margin-top: 0.75rem;
+}
+
+.contact-section {
+  padding: 0 4rem 3.5rem;
+}
+
+.contact-intro {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--subtext);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.contact-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(78, 184, 224, 0.2);
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+}
+
+.contact-card:hover {
+  background: var(--card-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+.contact-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--accent2);
+  flex-shrink: 0;
+}
+
+.contact-platform {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.contact-handle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--subtext);
+  text-align: center;
+  word-break: break-all;
+}
+
 @media (max-width: 768px) {
-  .about-hero, .about-sections {
+  .about-hero, .about-sections, .contact-section {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
   .about-sections {
+    grid-template-columns: 1fr;
+  }
+  .contact-grid {
     grid-template-columns: 1fr;
   }
 }
