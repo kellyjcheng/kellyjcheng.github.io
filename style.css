@@ -1,18 +1,18 @@
 :root {
-    --primary: #2563eb;
-    --dark: #1e293b;
-    --light: #f8fafc;
-    --gray: #64748b;
-    --border: #e1e4e8;
-    --link-bubble: #e0f2fe; /* Light blue bubble for links */
+    --primary: #60a5fa; /* A brighter blue for links on dark background */
+    --dark-bg: #0f172a; /* Deep, cool dark blue from Adobe image */
+    --light-banner: #f0f9ff; /* Crisp, very pale blue for header */
+    --gray-text: #94a3b8; /* Cool gray for descriptions on dark background */
+    --border: #1e293b; /* Darker border for cards */
+    --link-bubble: #e0f2fe; /* Bubble color for links in labs */
+    --card-bg: #1e293b; /* Slightly lighter blue for cards */
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     margin: 0;
-    background-color: var(--light);
-    color: var(--dark);
+    color: white; /* Standard text on dark background */
 }
 
 .container {
@@ -21,10 +21,10 @@ body {
     padding: 2rem;
 }
 
-/* Navigation */
-nav {
-    background: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* 1. LIGHT BANNER NAVIGATION */
+nav.light-banner {
+    background: var(--light-banner);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -37,6 +37,12 @@ nav {
     padding: 1rem 2rem;
 }
 
+.light-banner .logo {
+    color: #0c4a6e; /* Deep blue for logo in banner */
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
@@ -45,8 +51,18 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--dark);
+    color: #0c4a6e; /* Match logo */
     font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+/* 2. MAIN DARK PAGE AREA */
+.dark-page {
+    background-color: var(--dark-bg);
+    min-height: 100vh;
 }
 
 /* Hero Section */
@@ -56,7 +72,8 @@ nav {
 }
 
 .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; }
-.hero h3 { color: var(--primary); margin-bottom: 1.5rem; }
+.hero h3 { color: var(--primary); margin-bottom: 1.5rem; font-weight: 500; }
+.hero p { color: var(--gray-text); }
 
 /* Grid & Cards */
 .grid {
@@ -67,37 +84,44 @@ nav {
 }
 
 .card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
+    border: 1px solid var(--border);
 }
 
-/* Image Container (NEW) */
+/* Centered Images (UPDATED) */
 .card-img-wrap {
     height: 160px;
+    background: #0c4a6e; /* Fallback from banner colors */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
-    background: #cbd5e1; /* Fallback color */
 }
 
 .card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensures image fills the box without distortion */
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Ensures the *whole* image is visible and centered */
 }
 
 .card-body {
     padding: 1.5rem;
-    padding-bottom: 0.5rem; /* Less space at bottom before links */
-    flex-grow: 1; /* Keeps card bodies aligned */
+    padding-bottom: 0.5rem;
+    flex-grow: 1;
 }
 
-/* UPDATED Links Section */
+.card-body h4 { margin-top: 0; margin-bottom: 0.5rem; color: white; }
+.card-body p { font-size: 0.95rem; color: var(--gray-text); margin: 0; }
+
+/* Links Bubble Section */
 .card-links {
     margin-top: auto;
-    padding: 1.5rem; /* LOTS of padding from the border */
+    padding: 1.5rem;
     display: flex;
     gap: 12px;
 }
@@ -105,21 +129,21 @@ nav {
 .card-links a {
     text-decoration: none;
     font-size: 0.85rem;
-    color: #1a4da6; /* Darker blue for contrast in bubble */
+    color: #0c4a6e; /* Deep blue from banner contrast */
     font-weight: bold;
-    font-family: 'Verdana', sans-serif; /* Slightly more bubble/bold font */
+    font-family: 'Verdana', sans-serif;
     background: var(--link-bubble);
-    padding: 8px 16px; /* Inside space for the bubble look */
-    border-radius: 20px; /* Fully rounded 'bubble' */
+    padding: 8px 16px;
+    border-radius: 20px;
     transition: background 0.2s, box-shadow 0.2s;
 }
 
 .card-links a:hover {
-    background: #bae6fd; /* Slightly darker on hover */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: #bae6fd;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
-/* Socials & Connect */
+/* Socials & Connect (Dark Mode Style) */
 .social-grid {
     display: flex;
     flex-direction: column;
@@ -128,17 +152,21 @@ nav {
 
 .social-link {
     text-decoration: none;
-    color: var(--dark);
+    color: white; /* Standard white on dark background */
     font-size: 1.1rem;
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
+.social-link:hover {
+    color: var(--primary);
+}
+
 .placeholder {
     padding: 3rem;
-    border: 2px dashed #cbd5e1;
+    border: 2px dashed var(--gray-text);
     text-align: center;
-    color: var(--gray);
+    color: var(--gray-text);
     border-radius: 12px;
 }
