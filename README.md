@@ -13,32 +13,32 @@ Welcome to my technical portfolio. This repository serves as a centralized hub f
 ---
 
 ## About Me
-I am a Computer Science undergraduate at the **University of Washington** on an accelerated three-year track. I specialize in **Systems Administration and Cybersecurity**, with a core focus on building resilient network defenses and performing deep-dive threat analysis.
+I’m a Computer Science student at the University of Washington, currently on an accelerated track. I’m mainly focused on cybersecurity and systems—trying to understand how systems work, how they fail, and how to make them more secure.
 
-Beyond the terminal, I’m a competitive athlete and a culinary enthusiast. I apply the same discipline required for **tennis and swimming** to my technical growth, and I enjoy the creative challenge of **culinary fusion**—much like finding the perfect synergy between different software stacks.
+I’m especially interested in things like system configuration, network behavior, and breaking down security problems in a way that’s actually understandable.
 
-* **Core Focus:** Defensive Security, Network Traffic Analysis, Linux SysAdmin.
-* **Timeline:** Expected Graduation: June 2027 (Accelerated Path).
-* **Current Goal:** Securing a Summer 2026 Cybersecurity Internship.
+Outside of tech, I spend a lot of time training and competing in sports like tennis and swimming. That mindset—consistency, discipline, and pushing through plateaus—carries over into how I approach learning and building projects.
+
+I also enjoy cooking, especially experimenting with different styles and combinations. It’s a different kind of problem-solving, but it feels pretty similar to working with systems—figuring out how different pieces come together.
+
+* **Current Focus:** Defensive Security, Network Traffic Analysis, Linux SysAdmin.
+* **Timeline:** Expected Graduation: June 2027
+* **Current Goal:** Securing a Cybersecurity Internship.
 
 ---
 
 ## Cybersecurity Projects & Labs
 I prioritize hands-on application and "learning by doing." Key highlights include:
 
-### 1. Ubuntu VM Hardening & Server Security
+### Ubuntu VM Hardening & Server Security
 * **Objective:** Deploy and secure a production-ready Nginx web server.
 * **Implementation:** Configured strict **UFW/firewall rules**, implemented SSH key-based authentication, and disabled insecure protocols.
 * **Outcome:** A reproducible, hardened environment documented for secure deployment.
 
-### 2. Network Analysis & Traffic Monitoring
+### Network Analysis & Traffic Monitoring
 * **Objective:** Identify anomalous patterns and potential vulnerabilities in network traffic.
 * **Implementation:** Used **Wireshark** to capture and dissect packets, analyzing handshakes, headers, and payload data.
 * **Outcome:** Developed a structured methodology for identifying unauthorized access attempts.
-
-### 3. SANS 560 Self-Study & Enterprise Labs
-* **Objective:** Master enterprise-level penetration testing methodologies.
-* **Implementation:** Completed labs focused on network scanning, exploitation, and post-exploitation using industry-standard frameworks.
 
 ---
 
