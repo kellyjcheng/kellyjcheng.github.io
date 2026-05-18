@@ -94,6 +94,7 @@
     }
     .doc-badge.competition { color: var(--dc-amber); border-color: var(--dc-amber); }
     .doc-badge.cert        { color: var(--dc-green); border-color: var(--dc-green); }
+    .doc-badge.ctf         { color: #f87171;         border-color: #f87171; }
 
     .doc-title {
       font-family: 'Oswald', sans-serif; text-transform: uppercase;
@@ -237,6 +238,24 @@
      * },
      */
     const ENTRIES = [
+      {
+        id:      'tryhackme-ai-odyssey-task8',
+        type:    'ctf',
+        title:   'TryHackMe AI Odyssey Planet Vectara Task 8',
+        period:  'May 2026',
+        status:  'complete',
+        stack:   ['CTF', 'XSS', 'LLM', 'AI Security', 'TryHackMe'],
+        summary: "EPOCH-1 MedBay is a shipboard medical AI chatbot vulnerable to LLM05 — Insecure Output Handling, where a server-side pharmacist bot renders filed crew notes as HTML without sanitisation. Exploiting this required identifying two trigger keywords — URGENT and ru7opium — which route a note to senior pharmacist review and activate HTML rendering, allowing a stored XSS payload to fire in the bot's context. After 25+ attempts across multiple sessions, the winning payload successfully exfiltrated the pharmacist's session cookie via /api/my_callbacks.",
+        subtopics: [
+          {
+            tag:   'A.1',
+            title: 'Protocol Drift Report',
+            pages: 'Full report',
+            desc:  'Complete CTF writeup documenting the LLM05 vulnerability, trigger keyword discovery, payload development, and successful session cookie exfiltration via stored XSS.',
+            doc:   'docs/Protocol_Drift_Report.docx',
+          },
+        ],
+      },
       // add entries here
     ];
 
