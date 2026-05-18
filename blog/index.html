@@ -1,662 +1,443 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Blog | Kelly Cheng</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Kelly Cheng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    body { background-image: url('../images/cyber-bg.jpg'); }
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    /* Blog-specific tokens (prefixed to avoid colliding with style.css) */
+    :root {
+      --bl-line:      rgba(93,196,255,0.18);
+      --bl-line-soft: rgba(93,196,255,0.08);
+      --bl-ink-dim:   #97a8b8;
+      --bl-ink-mute:  #5d6f81;
+      --bl-cyan:      #5dc4ff;
+    }
 
-<style>
-  :root {
-    --bg: #07111e;
-    --bg-2: #0a1828;
-    --bg-3: #0e2236;
-    --line: rgba(93, 196, 255, 0.18);
-    --line-soft: rgba(93, 196, 255, 0.08);
-    --ink: #e6f0fa;
-    --ink-dim: #97a8b8;
-    --ink-mute: #5d6f81;
-    --cyan: #5dc4ff;
-    --cyan-bright: #7fd3ff;
-    --cyan-glow: rgba(93, 196, 255, 0.35);
-    --amber: #f4b366;
-  }
+    /* ── Blog hero (sits inside .page which already has 90px top padding) ── */
+    .blog-hero {
+      padding: 3.5rem 4rem 2rem;
+      border-bottom: 1px solid var(--bl-line-soft);
+    }
+    .blog-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.32em; color: var(--bl-cyan);
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .blog-eyebrow::before {
+      content: ''; display: inline-block; width: 22px; height: 1px; background: var(--bl-cyan);
+    }
+    .blog-sub {
+      margin: 0.6rem 0 0; max-width: 640px;
+      color: var(--subtext); font-family: 'Inter', sans-serif;
+      font-size: 0.95rem; line-height: 1.6;
+    }
+    .blog-meta {
+      margin-top: 1.25rem; display: flex; gap: 28px; flex-wrap: wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bl-ink-mute);
+    }
+    .blog-meta b { color: var(--bl-cyan); font-weight: 500; margin-right: 6px; }
 
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    /* ── Content sections ── */
+    .bl-section { padding: 64px 4rem; }
+    .bl-section + .bl-section { padding-top: 0; }
+    .bl-section-header {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      gap: 24px; margin-bottom: 36px;
+    }
+    .bl-kicker {
+      display: block; font-family: 'Inter', sans-serif;
+      color: var(--bl-cyan); font-size: 11px; letter-spacing: 0.32em;
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .bl-title {
+      font-family: 'Oswald', sans-serif; text-transform: uppercase;
+      font-size: 44px; font-weight: 700; margin: 0;
+      color: var(--text); position: relative; padding-bottom: 6px;
+    }
+    .bl-title::after {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: 56px; height: 2px; background: var(--bl-cyan);
+    }
+    .bl-aside {
+      font-family: 'Inter', sans-serif;
+      color: var(--bl-ink-mute); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    }
 
-  .display { font-family: 'Oswald', sans-serif; font-weight: 700; letter-spacing: 0.005em; text-transform: uppercase; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+    /* ── Latest post feature card ── */
+    .feature {
+      display: grid; grid-template-columns: 1.15fr 1fr;
+      border: 1px solid var(--bl-line);
+      background: linear-gradient(135deg, rgba(14,34,54,0.7), rgba(10,24,40,0.7));
+      overflow: hidden;
+    }
+    .feature-media {
+      position: relative; min-height: 460px;
+      background:
+        radial-gradient(ellipse at 50% 60%, rgba(93,196,255,0.22), transparent 60%),
+        linear-gradient(180deg, rgba(14,34,54,0.9), rgba(7,17,30,0.9));
+      overflow: hidden; display: flex; align-items: center; justify-content: center;
+    }
+    .feature-media svg.glyph { width: 60%; height: 60%; opacity: 0.85; }
+    .feature-media::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent 0 3px, rgba(93,196,255,0.04) 3px 4px);
+      mix-blend-mode: screen; pointer-events: none;
+    }
+    .feature-tag {
+      position: absolute; top: 22px; left: 22px;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 12px; border: 1px solid var(--bl-cyan);
+      background: rgba(7,17,30,0.75); backdrop-filter: blur(4px);
+      color: var(--bl-cyan); font-family: 'Inter', sans-serif;
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    }
+    .feature-tag .pulse {
+      width: 6px; height: 6px; border-radius: 50%; background: var(--bl-cyan);
+      animation: pulse 2.2s ease-out infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0   rgba(93,196,255,0.7); }
+      70%  { box-shadow: 0 0 0 10px rgba(93,196,255,0); }
+      100% { box-shadow: 0 0 0 0   rgba(93,196,255,0); }
+    }
+    .feature-body {
+      padding: 48px 56px; display: flex; flex-direction: column; justify-content: center;
+    }
+    .feature-date {
+      font-family: 'Inter', sans-serif;
+      color: var(--bl-ink-mute); font-size: 11px; letter-spacing: 0.28em;
+      text-transform: uppercase; margin-bottom: 16px;
+    }
+    .feature-title {
+      font-family: 'Oswald', sans-serif; text-transform: uppercase;
+      font-size: 42px; line-height: 1.02; margin: 0 0 18px; color: #fff; font-weight: 700;
+    }
+    .feature-excerpt {
+      font-family: 'Inter', sans-serif;
+      color: var(--bl-ink-dim); line-height: 1.65; font-size: 15px; margin: 0 0 28px;
+    }
+    .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .chip {
+      font-family: 'Inter', sans-serif;
+      padding: 6px 14px; border: 1px solid var(--bl-cyan);
+      color: var(--bl-cyan); font-size: 11px; letter-spacing: 0.16em;
+      text-transform: uppercase; border-radius: 999px; background: transparent;
+    }
+    .feature-cta {
+      font-family: 'Inter', sans-serif;
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 14px 22px; border: 1px solid var(--bl-cyan); color: var(--bl-cyan);
+      font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
+      width: max-content; cursor: pointer; background: transparent;
+      transition: background 200ms ease, color 200ms ease;
+    }
+    .feature-cta:hover { background: var(--bl-cyan); color: #07111e; }
+    .feature-cta svg { transition: transform 200ms ease; }
+    .feature-cta:hover svg { transform: translateX(4px); }
 
-  a { color: inherit; text-decoration: none; }
+    /* ── Highlights ── */
+    .highlights { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .hl-card {
+      border: 1px solid var(--bl-line); background: rgba(10,24,40,0.6);
+      padding: 28px; cursor: pointer; transition: all 220ms ease;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; min-height: 320px;
+      color: inherit; text-decoration: none;
+    }
+    .hl-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+      background: var(--bl-cyan); transform: scaleX(0); transform-origin: left;
+      transition: transform 280ms ease;
+    }
+    .hl-card:hover { border-color: var(--bl-cyan); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(93,196,255,0.12); }
+    .hl-card:hover::before { transform: scaleX(1); }
+    .hl-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--bl-cyan); letter-spacing: 0.2em; }
+    .hl-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .hl-cat { font-family: 'Inter', sans-serif; color: var(--bl-ink-mute); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; }
+    .hl-title { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 24px; line-height: 1.08; color: #fff; margin: 0 0 16px; font-weight: 600; }
+    .hl-excerpt { font-family: 'Inter', sans-serif; color: var(--bl-ink-dim); font-size: 14px; line-height: 1.6; margin: 0 0 24px; flex: 1; }
+    .hl-foot { display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bl-ink-mute); }
+    .hl-read { color: var(--bl-cyan); }
 
-  /* ---------- HERO + AMBIENT BG ---------- */
-  .hero {
-    position: relative;
-    min-height: 360px;
-    background: var(--bg-2);
-    overflow: hidden;
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 70% 50%, rgba(93,196,255,0.10), transparent 60%),
-      radial-gradient(ellipse at 15% 20%, rgba(93,196,255,0.06), transparent 50%),
-      linear-gradient(180deg, #07111e 0%, #0a1828 40%, #0a1828 100%);
-  }
-  .hero-particles { position: absolute; inset: 0; opacity: 0.55; pointer-events: none; }
+    /* ── All Posts feed ── */
+    .feed-toolbar {
+      display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+      padding: 18px 0; margin-bottom: 24px;
+      border-top: 1px solid var(--bl-line-soft); border-bottom: 1px solid var(--bl-line-soft);
+    }
+    .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-pill {
+      font-family: 'Inter', sans-serif;
+      padding: 8px 16px; border: 1px solid var(--bl-line);
+      background: transparent; color: var(--bl-ink-dim);
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      border-radius: 999px; cursor: pointer; transition: all 160ms ease;
+    }
+    .filter-pill:hover { color: #e6f0fa; border-color: rgba(93,196,255,0.4); }
+    .filter-pill.active { background: var(--bl-cyan); color: #07111e; border-color: var(--bl-cyan); }
+    .search-wrap {
+      margin-left: auto; display: flex; align-items: center; gap: 10px;
+      padding: 8px 14px; border: 1px solid var(--bl-line); border-radius: 999px;
+      min-width: 260px; transition: border-color 160ms ease;
+    }
+    .search-wrap:focus-within { border-color: var(--bl-cyan); }
+    .search-wrap svg { color: var(--bl-ink-mute); flex-shrink: 0; }
+    .search-wrap input {
+      background: transparent; border: none; outline: none; color: #e6f0fa;
+      font-family: 'Inter', sans-serif; font-size: 13px; flex: 1; width: 100%;
+    }
+    .search-wrap input::placeholder { color: var(--bl-ink-mute); }
+    .feed { display: grid; grid-template-columns: 1fr; border-top: 1px solid var(--bl-line-soft); }
+    .feed-row {
+      display: grid; grid-template-columns: 110px 1fr 220px 90px;
+      align-items: center; gap: 28px; padding: 22px 8px;
+      border-bottom: 1px solid var(--bl-line-soft);
+      cursor: pointer; transition: background 200ms ease, padding-left 200ms ease;
+      position: relative; text-decoration: none; color: inherit;
+    }
+    .feed-row::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+      background: var(--bl-cyan); transform: scaleY(0); transform-origin: top;
+      transition: transform 220ms ease;
+    }
+    .feed-row:hover { background: rgba(93,196,255,0.04); padding-left: 22px; }
+    .feed-row:hover::before { transform: scaleY(1); }
+    .feed-date { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--bl-ink-mute); }
+    .feed-date .yr { color: var(--bl-cyan); }
+    .feed-main { min-width: 0; }
+    .feed-title { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 22px; color: #fff; margin: 0 0 6px; font-weight: 600; transition: color 160ms ease; }
+    .feed-row:hover .feed-title { color: var(--bl-cyan); }
+    .feed-snip { font-family: 'Inter', sans-serif; color: var(--bl-ink-mute); font-size: 13px; line-height: 1.5; margin: 0; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+    .feed-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .feed-tag { font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bl-cyan); border: 1px solid rgba(93,196,255,0.35); padding: 4px 10px; border-radius: 999px; }
+    .feed-read { font-family: 'JetBrains Mono', monospace; text-align: right; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bl-ink-mute); }
+    .feed-empty { padding: 80px 20px; text-align: center; font-family: 'Inter', sans-serif; color: var(--bl-ink-mute); font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--bl-line-soft); }
+    .feed-foot { margin-top: 32px; display: flex; justify-content: space-between; align-items: center; font-family: 'Inter', sans-serif; color: var(--bl-ink-mute); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; }
+    .feed-count b { color: var(--bl-cyan); font-weight: 500; }
 
-  /* nav */
-  .nav-wrap { position: relative; z-index: 5; }
-  .nav {
-    max-width: 1320px; margin: 0 auto; padding: 22px 56px;
-    display: flex; align-items: center; justify-content: flex-end;
-    gap: 0; font-size: 15px;
-  }
-  .nav a {
-    padding: 6px 18px; color: var(--ink); letter-spacing: 0.01em;
-    transition: color 160ms ease;
-  }
-  .nav a:hover { color: var(--cyan-bright); }
-  .nav a.active { color: var(--cyan); }
-  .nav .sep { color: rgba(93,196,255,0.35); font-weight: 300; user-select: none; }
-
-  .hero-inner {
-    position: relative; z-index: 4;
-    max-width: 1320px; margin: 0 auto;
-    padding: 56px 56px 80px;
-  }
-  .hero-eyebrow {
-    display: inline-flex; align-items: center; gap: 10px;
-    font-size: 11px; letter-spacing: 0.32em; color: var(--cyan);
-    text-transform: uppercase; margin-bottom: 18px;
-  }
-  .hero-eyebrow::before {
-    content: ''; display: inline-block; width: 22px; height: 1px; background: var(--cyan);
-  }
-  .hero-title {
-    font-size: clamp(72px, 11vw, 168px);
-    line-height: 0.88;
-    margin: 0;
-    color: #fff;
-  }
-  .hero-sub {
-    margin: 28px 0 0; max-width: 640px;
-    color: var(--ink-dim); font-size: 16px; line-height: 1.6;
-  }
-  .hero-meta {
-    margin-top: 36px; display: flex; gap: 28px; flex-wrap: wrap;
-    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-mute);
-  }
-  .hero-meta b { color: var(--cyan); font-weight: 500; margin-right: 6px; }
-
-  /* ---------- SECTIONS ---------- */
-  .section { max-width: 1320px; margin: 0 auto; padding: 88px 56px; }
-  .section-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
-  .section-title {
-    font-family: 'Oswald', sans-serif; text-transform: uppercase;
-    font-size: 44px; font-weight: 700; letter-spacing: 0.01em;
-    margin: 0; color: #fff; position: relative; padding-bottom: 6px;
-  }
-  .section-title::after {
-    content: ''; position: absolute; left: 0; bottom: 0; width: 56px; height: 2px; background: var(--cyan);
-  }
-  .section-kicker { color: var(--cyan); font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; margin-bottom: 10px; display: block; }
-  .section-aside { color: var(--ink-mute); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; }
-
-  /* ---------- RECENT UPDATE FEATURE ---------- */
-  .feature {
-    display: grid; grid-template-columns: 1.15fr 1fr;
-    gap: 0;
-    border: 1px solid var(--line);
-    background: linear-gradient(135deg, rgba(14,34,54,0.6), rgba(10,24,40,0.6));
-    overflow: hidden;
-    position: relative;
-  }
-  .feature-media {
-    position: relative; min-height: 460px;
-    background:
-      radial-gradient(ellipse at 50% 60%, rgba(93,196,255,0.22), transparent 60%),
-      linear-gradient(180deg, #0e2236, #07111e);
-    overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .feature-media svg.glyph { width: 60%; height: 60%; opacity: 0.85; }
-  .feature-media::after {
-    content: ''; position: absolute; inset: 0;
-    background:
-      repeating-linear-gradient(0deg, transparent 0 3px, rgba(93,196,255,0.04) 3px 4px);
-    mix-blend-mode: screen; pointer-events: none;
-  }
-  .feature-tag {
-    position: absolute; top: 22px; left: 22px;
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 7px 12px; border: 1px solid var(--cyan);
-    background: rgba(7,17,30,0.7); backdrop-filter: blur(4px);
-    color: var(--cyan); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
-  }
-  .feature-tag .pulse {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
-    box-shadow: 0 0 0 0 rgba(93,196,255,0.7);
-    animation: pulse 2.2s ease-out infinite;
-  }
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 rgba(93,196,255,0.7); }
-    70% { box-shadow: 0 0 0 10px rgba(93,196,255,0); }
-    100% { box-shadow: 0 0 0 0 rgba(93,196,255,0); }
-  }
-  .feature-body {
-    padding: 48px 56px; display: flex; flex-direction: column; justify-content: center;
-  }
-  .feature-date { color: var(--ink-mute); font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 16px; }
-  .feature-title {
-    font-family: 'Oswald', sans-serif; text-transform: uppercase;
-    font-size: 42px; line-height: 1.02; margin: 0 0 18px;
-    color: #fff; font-weight: 700;
-  }
-  .feature-excerpt { color: var(--ink-dim); line-height: 1.65; font-size: 15px; margin: 0 0 28px; }
-  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-  .chip {
-    padding: 6px 14px; border: 1px solid var(--cyan);
-    color: var(--cyan); font-size: 11px; letter-spacing: 0.16em;
-    text-transform: uppercase; border-radius: 999px;
-    background: transparent;
-    transition: background 160ms ease, color 160ms ease;
-  }
-  .chip:hover { background: rgba(93,196,255,0.12); }
-  .feature-cta {
-    display: inline-flex; align-items: center; gap: 12px;
-    padding: 14px 22px;
-    border: 1px solid var(--cyan); color: var(--cyan);
-    font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase;
-    width: max-content; cursor: pointer; background: transparent;
-    transition: all 200ms ease;
-  }
-  .feature-cta:hover { background: var(--cyan); color: var(--bg); }
-  .feature-cta svg { transition: transform 200ms ease; }
-  .feature-cta:hover svg { transform: translateX(4px); }
-
-  /* ---------- HIGHLIGHTS ---------- */
-  .highlights-wrap { position: relative; }
-  .highlights {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-  }
-  .hl-card {
-    border: 1px solid var(--line);
-    background: rgba(10, 24, 40, 0.6);
-    padding: 28px;
-    cursor: pointer;
-    transition: all 220ms ease;
-    position: relative; overflow: hidden;
-    display: flex; flex-direction: column; min-height: 320px;
-  }
-  .hl-card::before {
-    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
-    background: var(--cyan); transform: scaleX(0); transform-origin: left;
-    transition: transform 280ms ease;
-  }
-  .hl-card:hover {
-    border-color: var(--cyan); transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(93,196,255,0.12);
-  }
-  .hl-card:hover::before { transform: scaleX(1); }
-  .hl-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--cyan); letter-spacing: 0.2em;
-  }
-  .hl-meta {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 24px;
-  }
-  .hl-cat { color: var(--ink-mute); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; }
-  .hl-title {
-    font-family: 'Oswald', sans-serif; text-transform: uppercase;
-    font-size: 24px; line-height: 1.08; color: #fff; margin: 0 0 16px;
-    font-weight: 600;
-  }
-  .hl-excerpt { color: var(--ink-dim); font-size: 14px; line-height: 1.6; margin: 0 0 24px; flex: 1; }
-  .hl-foot {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute);
-  }
-  .hl-foot .read { color: var(--cyan); display: inline-flex; align-items: center; gap: 6px; }
-
-  /* ---------- ALL POSTS ---------- */
-  .feed-toolbar {
-    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
-    padding: 18px 0; margin-bottom: 24px;
-    border-top: 1px solid var(--line-soft);
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .filter-pills { display: flex; gap: 8px; flex-wrap: wrap; }
-  .filter-pill {
-    padding: 8px 16px; border: 1px solid var(--line);
-    background: transparent; color: var(--ink-dim);
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-    border-radius: 999px; cursor: pointer;
-    transition: all 160ms ease;
-    font-family: inherit;
-  }
-  .filter-pill:hover { color: var(--ink); border-color: rgba(93,196,255,0.4); }
-  .filter-pill.active { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
-
-  .search-wrap {
-    margin-left: auto; display: flex; align-items: center; gap: 10px;
-    padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px;
-    min-width: 260px;
-    transition: border-color 160ms ease;
-  }
-  .search-wrap:focus-within { border-color: var(--cyan); }
-  .search-wrap svg { color: var(--ink-mute); flex-shrink: 0; }
-  .search-wrap input {
-    background: transparent; border: none; outline: none; color: var(--ink);
-    font-family: inherit; font-size: 13px; flex: 1; width: 100%;
-  }
-  .search-wrap input::placeholder { color: var(--ink-mute); }
-
-  .feed { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--line-soft); }
-  .feed-row {
-    display: grid;
-    grid-template-columns: 110px 1fr 220px 90px;
-    align-items: center; gap: 28px;
-    padding: 22px 8px;
-    border-bottom: 1px solid var(--line-soft);
-    cursor: pointer;
-    transition: background 200ms ease, padding 200ms ease;
-    position: relative;
-  }
-  .feed-row::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-    background: var(--cyan); transform: scaleY(0); transform-origin: top;
-    transition: transform 220ms ease;
-  }
-  .feed-row:hover { background: rgba(93,196,255,0.04); padding-left: 22px; }
-  .feed-row:hover::before { transform: scaleY(1); }
-
-  .feed-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: var(--ink-mute); letter-spacing: 0.04em;
-  }
-  .feed-date .yr { color: var(--cyan); }
-  .feed-main { min-width: 0; }
-  .feed-title {
-    font-family: 'Oswald', sans-serif; text-transform: uppercase;
-    font-size: 22px; color: #fff; margin: 0 0 6px; font-weight: 600;
-    letter-spacing: 0.015em;
-    transition: color 160ms ease;
-  }
-  .feed-row:hover .feed-title { color: var(--cyan); }
-  .feed-snip { color: var(--ink-mute); font-size: 13px; line-height: 1.5; margin: 0;
-    overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
-  }
-  .feed-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .feed-tag {
-    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
-    color: var(--cyan); border: 1px solid rgba(93,196,255,0.35);
-    padding: 4px 10px; border-radius: 999px;
-  }
-  .feed-read {
-    text-align: right; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--ink-mute); font-family: 'JetBrains Mono', monospace;
-  }
-  .feed-empty {
-    padding: 80px 20px; text-align: center; color: var(--ink-mute);
-    font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
-    border-bottom: 1px solid var(--line-soft);
-  }
-
-  .feed-foot {
-    margin-top: 32px; display: flex; justify-content: space-between; align-items: center;
-    color: var(--ink-mute); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
-  }
-  .feed-count b { color: var(--cyan); font-weight: 500; }
-
-  /* footer */
-  .site-foot {
-    margin-top: 60px; padding: 40px 56px; border-top: 1px solid var(--line-soft);
-    color: var(--ink-mute); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
-    display: flex; justify-content: space-between; max-width: 1320px; margin-left: auto; margin-right: auto;
-  }
-
-  @media (max-width: 980px) {
-    .feature { grid-template-columns: 1fr; }
-    .feature-media { min-height: 280px; }
-    .feature-body { padding: 36px 32px; }
-    .highlights { grid-template-columns: 1fr; }
-    .section { padding: 64px 28px; }
-    .nav { padding: 18px 28px; }
-    .hero-inner { padding: 36px 28px 60px; }
-    .feed-row { grid-template-columns: 80px 1fr; }
-    .feed-tags, .feed-read { display: none; }
-    .section-header { flex-direction: column; align-items: flex-start; }
-  }
-</style>
+    @media (max-width: 980px) {
+      .feature { grid-template-columns: 1fr; }
+      .feature-media { min-height: 280px; }
+      .feature-body { padding: 36px 32px; }
+      .highlights { grid-template-columns: 1fr; }
+      .bl-section { padding: 48px 1.5rem; }
+      .blog-hero { padding: 2rem 1.5rem 1.5rem; }
+      .feed-row { grid-template-columns: 80px 1fr; }
+      .feed-tags, .feed-read { display: none; }
+      .bl-section-header { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <svg class="hero-particles" viewBox="0 0 1600 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <defs>
-      <radialGradient id="dot" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#5dc4ff" stop-opacity="1" />
-        <stop offset="100%" stop-color="#5dc4ff" stop-opacity="0" />
-      </radialGradient>
-      <radialGradient id="shieldGrad" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#5dc4ff" stop-opacity="0.0" />
-        <stop offset="70%" stop-color="#5dc4ff" stop-opacity="0.18" />
-        <stop offset="100%" stop-color="#5dc4ff" stop-opacity="0" />
-      </radialGradient>
-    </defs>
-    <g transform="translate(1100,250)" opacity="0.55">
-      <circle r="180" fill="none" stroke="#5dc4ff" stroke-width="0.5" opacity="0.18" />
-      <circle r="140" fill="none" stroke="#5dc4ff" stroke-width="0.5" opacity="0.25" />
-      <circle r="100" fill="none" stroke="#5dc4ff" stroke-width="0.5" opacity="0.32" />
-      <circle r="60" fill="none" stroke="#5dc4ff" stroke-width="0.5" opacity="0.4" />
-      <circle r="220" fill="url(#shieldGrad)" />
-    </g>
-    <g id="dots"></g>
-    <g transform="translate(1400,260)" opacity="0.5" stroke="#5dc4ff" stroke-width="0.6" fill="none">
-      <polyline points="0,0 60,-40 110,10 160,-30 220,20 180,80 90,60 30,90" />
-      <polyline points="60,-40 110,10 90,60" />
-      <polyline points="160,-30 180,80" />
-    </g>
-  </svg>
+  <!-- ── Navigation ── -->
+  <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../labs-projects/index.html">Labs &amp; Projects</a></li>
+      <li><a href="../documentation/index.html">Documentation</a></li>
+      <li><a href="index.html" class="active">Blog</a></li>
+      <li><a href="../aboutme/index.html">About Me</a></li>
+    </ul>
+  </nav>
 
-  <div class="nav-wrap">
-    <nav class="nav" aria-label="Primary">
-      <a href="../index.html">Home</a><span class="sep">|</span>
-      <a href="../labs-projects/index.html">Labs &amp; Projects</a><span class="sep">|</span>
-      <a href="../documentation/index.html">Documentation</a><span class="sep">|</span>
-      <a href="index.html" class="active">Blog</a><span class="sep">|</span>
-      <a href="../aboutme/index.html">About Me</a>
-    </nav>
-  </div>
+  <div class="page">
 
-  <div class="hero-inner">
-    <span class="hero-eyebrow">Field notes &middot; security &middot; systems</span>
-    <h1 class="display hero-title">Blog</h1>
-    <p class="hero-sub">Writeups, lab notes, and reflections from my cybersecurity and computer science work — what I built, what broke, and what I learned along the way.</p>
-    <div class="hero-meta">
-      <span><b id="metaCount">—</b> POSTS</span>
-      <span><b>5</b> CATEGORIES</span>
-      <span><b id="metaLast">—</b> LAST UPDATE</span>
-    </div>
-  </div>
-</section>
-
-<!-- RECENT UPDATE -->
-<section class="section">
-  <div class="section-header">
-    <div>
-      <span class="section-kicker">// 01 — Recent Update</span>
-      <h2 class="section-title">Latest Post</h2>
-    </div>
-    <div class="section-aside">Updated weekly</div>
-  </div>
-
-  <article class="feature" id="featureCard">
-    <div class="feature-media">
-      <div class="feature-tag"><span class="pulse"></span> New &middot; Just published</div>
-      <svg class="glyph" viewBox="0 0 200 200" aria-hidden="true">
-        <defs>
-          <linearGradient id="shieldStroke" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#5dc4ff" />
-            <stop offset="100%" stop-color="#2a7aaa" />
-          </linearGradient>
-        </defs>
-        <path d="M100 16 L172 44 L172 102 C172 142 142 174 100 188 C58 174 28 142 28 102 L28 44 Z"
-              fill="none" stroke="url(#shieldStroke)" stroke-width="1.5" opacity="0.9"/>
-        <path d="M100 30 L160 54 L160 102 C160 134 134 162 100 174 C66 162 40 134 40 102 L40 54 Z"
-              fill="none" stroke="#5dc4ff" stroke-width="0.6" opacity="0.5"/>
-        <g stroke="#5dc4ff" stroke-width="0.5" opacity="0.6" fill="none">
-          <circle cx="100" cy="100" r="22" />
-          <circle cx="100" cy="100" r="36" />
-          <circle cx="100" cy="100" r="50" />
-        </g>
-        <circle cx="100" cy="92" r="6" fill="none" stroke="#f4b366" stroke-width="1.2"/>
-        <rect x="96" y="96" width="8" height="14" fill="none" stroke="#f4b366" stroke-width="1.2"/>
-        <g fill="#5dc4ff">
-          <circle cx="60" cy="60" r="1"/><circle cx="140" cy="68" r="1"/>
-          <circle cx="72" cy="120" r="1"/><circle cx="148" cy="130" r="1"/>
-          <circle cx="100" cy="150" r="1"/>
-        </g>
-      </svg>
-    </div>
-    <div class="feature-body">
-      <div class="feature-date">May 14, 2026 &middot; 12 min read</div>
-      <h3 class="feature-title">Hardening Nginx: TLS, Rate Limits, and Defense in Depth</h3>
-      <p class="feature-excerpt">A complete walkthrough of locking down an Nginx reverse proxy from scratch — from secure TLS configuration and HSTS to per-IP rate limiting, request filtering, and the system-level hardening that catches everything the application layer misses. Includes my full config and the attack vectors each line is closing.</p>
-      <div class="chip-row">
-        <span class="chip">Nginx</span>
-        <span class="chip">TLS</span>
-        <span class="chip">Hardening</span>
-        <span class="chip">Linux</span>
+    <!-- ── Blog intro ── -->
+    <section class="blog-hero">
+      <span class="blog-eyebrow">Field notes &middot; security &middot; systems</span>
+      <h1 class="page-title">Blog</h1>
+      <p class="blog-sub">Writeups, lab notes, and reflections from my cybersecurity and computer science work — what I built, what broke, and what I learned along the way.</p>
+      <div class="blog-meta">
+        <span><b id="metaCount">—</b> POSTS</span>
+        <span><b>5</b> CATEGORIES</span>
+        <span><b id="metaLast">—</b> LAST UPDATE</span>
       </div>
-      <button class="feature-cta">
-        Read the writeup
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M2 7h10M8 3l4 4-4 4" />
-        </svg>
-      </button>
-    </div>
-  </article>
-</section>
+    </section>
 
-<!-- HIGHLIGHTS -->
-<section class="section" style="padding-top: 0;">
-  <div class="section-header">
-    <div>
-      <span class="section-kicker">// 02 — Highlights</span>
-      <h2 class="section-title">Editor's Picks</h2>
-    </div>
-    <div class="section-aside">Hand-selected · most useful</div>
-  </div>
-  <div class="highlights" id="highlights"></div>
-</section>
-
-<!-- ALL POSTS -->
-<section class="section" style="padding-top: 0;">
-  <div class="section-header">
-    <div>
-      <span class="section-kicker">// 03 — Archive</span>
-      <h2 class="section-title">All Posts</h2>
-    </div>
-    <div class="section-aside" id="resultsCount">— results</div>
-  </div>
-
-  <div class="feed-toolbar">
-    <div class="filter-pills" id="filterPills"></div>
-    <label class="search-wrap" aria-label="Search posts">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="6" cy="6" r="4"/>
-        <path d="M9 9l3.5 3.5"/>
-      </svg>
-      <input id="searchInput" type="text" placeholder="Search posts, tags, keywords…" autocomplete="off" />
-    </label>
-  </div>
-
-  <div class="feed" id="feed"></div>
-
-  <div class="feed-foot">
-    <span class="feed-count">Showing <b id="footCount">—</b> of <b id="footTotal">—</b> posts</span>
-    <span>// end of feed</span>
-  </div>
-</section>
-
-<footer class="site-foot">
-  <span>&copy; 2026 &mdash; Kelly Cheng</span>
-  <span>RSS · Atom · Sitemap</span>
-</footer>
-
-<script>
-  // ----- generate hero particles -----
-  (function(){
-    const dots = document.getElementById('dots');
-    if (!dots) return;
-    let html = '';
-    const seed = 17;
-    let r = seed;
-    const rand = () => { r = (r * 9301 + 49297) % 233280; return r / 233280; };
-    for (let i = 0; i < 90; i++) {
-      const x = rand() * 1600;
-      const y = rand() * 500;
-      const rad = rand() * 1.6 + 0.4;
-      const op = rand() * 0.6 + 0.15;
-      html += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rad.toFixed(1)}" fill="#5dc4ff" opacity="${op.toFixed(2)}"/>`;
-    }
-    for (let i = 0; i < 8; i++) {
-      const x = rand() * 1600;
-      const y = rand() * 500;
-      html += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6" fill="url(#dot)" opacity="0.6"/>`;
-    }
-    dots.innerHTML = html;
-  })();
-
-  // ----- BLOG DATA (placeholders — fill in real posts) -----
-  const POSTS = [
-    { id: 1, date: '2026-05-14', readMin: 12, category: 'Security', title: "Hardening Nginx: TLS, Rate Limits, and Defense in Depth",
-      excerpt: "A full walkthrough of locking down an Nginx reverse proxy — TLS, HSTS, rate limiting, request filtering, and OS-level hardening.",
-      tags: ['Nginx','TLS','Hardening'], highlight: true, featured: true },
-    { id: 2, date: '2026-04-29', readMin: 9, category: 'Networking', title: "Reading TLS Handshakes in Wireshark",
-      excerpt: "Annotating a real ClientHello/ServerHello capture packet by packet — what each extension actually negotiates and why it matters.",
-      tags: ['Wireshark','TLS','PCAP'], highlight: true },
-    { id: 3, date: '2026-04-12', readMin: 7, category: 'Linux', title: "Building a Minimal Ubuntu Server Image",
-      excerpt: "Stripping a base Ubuntu install down to a reproducible, auditable server image with cloud-init and ufw rules baked in.",
-      tags: ['Ubuntu','UFW','cloud-init'], highlight: true },
-    { id: 4, date: '2026-03-30', readMin: 6, category: 'CS Projects', title: "Writing a Tiny C Memory Allocator",
-      excerpt: "Implementing malloc/free from scratch with a free-list and coalescing — and benchmarking it against glibc.",
-      tags: ['C','Systems','Memory'] },
-    { id: 5, date: '2026-03-18', readMin: 10, category: 'Security', title: "Nmap Discovery on My Own Lab Network",
-      excerpt: "Mapping a VMware lab subnet end-to-end: host discovery, service fingerprinting, and turning scan output into useful inventory.",
-      tags: ['Nmap','Recon','Lab'] },
-    { id: 6, date: '2026-03-02', readMin: 8, category: 'Linux', title: "SSH Keys Done Right",
-      excerpt: "Modern key types, agent forwarding pitfalls, and the sshd_config knobs that actually move the needle for a hardened login.",
-      tags: ['OpenSSH','Linux'] },
-    { id: 7, date: '2026-02-20', readMin: 11, category: 'Networking', title: "Subnetting Without the Cheatsheet",
-      excerpt: "Building the intuition for CIDR math so you can split networks on paper — fast — without reaching for a calculator.",
-      tags: ['Networking','CIDR'] },
-    { id: 8, date: '2026-02-04', readMin: 5, category: 'Reflections', title: "Why I Document Every Lab",
-      excerpt: "Notes on the writeup habit — why long-form documentation is the single best thing I do for my own learning curve.",
-      tags: ['Process','Notes'] },
-    { id: 9, date: '2026-01-22', readMin: 9, category: 'CS Projects', title: "A SQL Query Optimizer Mini-Project",
-      excerpt: "Hand-rolling a tiny rule-based query planner in Python — predicate pushdown, join reordering, and what the EXPLAIN really means.",
-      tags: ['SQL','Python','DB'] },
-    { id: 10, date: '2026-01-08', readMin: 6, category: 'Security', title: "UFW vs nftables: When to Reach for Which",
-      excerpt: "A pragmatic comparison after running both in production-style labs — including the moments when UFW's simplicity becomes a liability.",
-      tags: ['UFW','nftables','Firewall'] },
-    { id: 11, date: '2025-12-19', readMin: 7, category: 'Reflections', title: "Working with Claude and Copilot Without Losing the Plot",
-      excerpt: "My hybrid workflow for AI-assisted coding: where I let the model lead, where I take back the wheel, and how I keep ownership of the logic.",
-      tags: ['AI','Workflow'] },
-    { id: 12, date: '2025-12-05', readMin: 8, category: 'Linux', title: "Systemd Units I Actually Use",
-      excerpt: "A small but well-worn collection of timer and service unit patterns for backups, health checks, and recurring lab chores.",
-      tags: ['systemd','Linux'] },
-  ];
-
-  // ----- helpers -----
-  const fmtDate = (iso) => {
-    const d = new Date(iso + 'T00:00:00');
-    const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-    return { day: String(d.getDate()).padStart(2,'0'), mon: months[d.getMonth()], yr: d.getFullYear() };
-  };
-  const fmtLong = (iso) => {
-    const d = new Date(iso + 'T00:00:00');
-    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  };
-
-  // ----- highlights render -----
-  const highlightsEl = document.getElementById('highlights');
-  const highlights = POSTS.filter(p => p.highlight).slice(0, 3);
-  highlightsEl.innerHTML = highlights.map((p, i) => {
-    const d = fmtDate(p.date);
-    return `
-      <a class="hl-card" href="#post-${p.id}">
-        <div class="hl-meta">
-          <span class="hl-num mono">H / 0${i+1}</span>
-          <span class="hl-cat">${p.category}</span>
+    <!-- ── Latest Post ── -->
+    <section class="bl-section">
+      <div class="bl-section-header">
+        <div>
+          <span class="bl-kicker">// 01 — Recent Update</span>
+          <h2 class="bl-title">Latest Post</h2>
         </div>
+        <div class="bl-aside">Updated weekly</div>
+      </div>
+
+      <article class="feature">
+        <div class="feature-media">
+          <div class="feature-tag"><span class="pulse"></span> New &middot; Just published</div>
+          <svg class="glyph" viewBox="0 0 200 200" aria-hidden="true">
+            <defs>
+              <linearGradient id="shieldStroke" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#5dc4ff" />
+                <stop offset="100%" stop-color="#2a7aaa" />
+              </linearGradient>
+            </defs>
+            <path d="M100 16 L172 44 L172 102 C172 142 142 174 100 188 C58 174 28 142 28 102 L28 44 Z"
+                  fill="none" stroke="url(#shieldStroke)" stroke-width="1.5" opacity="0.9"/>
+            <path d="M100 30 L160 54 L160 102 C160 134 134 162 100 174 C66 162 40 134 40 102 L40 54 Z"
+                  fill="none" stroke="#5dc4ff" stroke-width="0.6" opacity="0.5"/>
+            <g stroke="#5dc4ff" stroke-width="0.5" opacity="0.6" fill="none">
+              <circle cx="100" cy="100" r="22" /><circle cx="100" cy="100" r="36" /><circle cx="100" cy="100" r="50" />
+            </g>
+            <circle cx="100" cy="92" r="6" fill="none" stroke="#f4b366" stroke-width="1.2"/>
+            <rect x="96" y="96" width="8" height="14" fill="none" stroke="#f4b366" stroke-width="1.2"/>
+            <g fill="#5dc4ff">
+              <circle cx="60" cy="60" r="1"/><circle cx="140" cy="68" r="1"/>
+              <circle cx="72" cy="120" r="1"/><circle cx="148" cy="130" r="1"/>
+              <circle cx="100" cy="150" r="1"/>
+            </g>
+          </svg>
+        </div>
+        <div class="feature-body">
+          <div class="feature-date" id="featureDate"></div>
+          <h3 class="feature-title" id="featureTitle"></h3>
+          <p class="feature-excerpt" id="featureExcerpt"></p>
+          <div class="chip-row" id="featureChips"></div>
+          <button class="feature-cta">
+            Read the writeup
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M2 7h10M8 3l4 4-4 4" />
+            </svg>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ── Editor's Picks ── -->
+    <section class="bl-section">
+      <div class="bl-section-header">
+        <div>
+          <span class="bl-kicker">// 02 — Highlights</span>
+          <h2 class="bl-title">Editor's Picks</h2>
+        </div>
+        <div class="bl-aside">Hand-selected &middot; most useful</div>
+      </div>
+      <div class="highlights" id="highlights"></div>
+    </section>
+
+    <!-- ── All Posts ── -->
+    <section class="bl-section">
+      <div class="bl-section-header">
+        <div>
+          <span class="bl-kicker">// 03 — Archive</span>
+          <h2 class="bl-title">All Posts</h2>
+        </div>
+        <div class="bl-aside" id="resultsCount">— results</div>
+      </div>
+
+      <div class="feed-toolbar">
+        <div class="filter-pills" id="filterPills"></div>
+        <label class="search-wrap" aria-label="Search posts">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="6" cy="6" r="4"/><path d="M9 9l3.5 3.5"/>
+          </svg>
+          <input id="searchInput" type="text" placeholder="Search posts, tags, keywords…" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="feed" id="feed"></div>
+
+      <div class="feed-foot">
+        <span class="feed-count">Showing <b id="footCount">—</b> of <b id="footTotal">—</b> posts</span>
+        <span>// end of feed</span>
+      </div>
+    </section>
+
+  </div><!-- /.page -->
+
+  <script>
+    const POSTS = [
+      { id:1,  date:'2026-05-14', readMin:12, category:'Security',    title:"Hardening Nginx: TLS, Rate Limits, and Defense in Depth",   excerpt:"A full walkthrough of locking down an Nginx reverse proxy — TLS, HSTS, rate limiting, request filtering, and OS-level hardening.", tags:['Nginx','TLS','Hardening'], highlight:true, featured:true },
+      { id:2,  date:'2026-04-29', readMin:9,  category:'Networking',  title:"Reading TLS Handshakes in Wireshark",                        excerpt:"Annotating a real ClientHello/ServerHello capture packet by packet — what each extension actually negotiates and why it matters.",   tags:['Wireshark','TLS','PCAP'], highlight:true },
+      { id:3,  date:'2026-04-12', readMin:7,  category:'Linux',       title:"Building a Minimal Ubuntu Server Image",                     excerpt:"Stripping a base Ubuntu install down to a reproducible, auditable server image with cloud-init and ufw rules baked in.",           tags:['Ubuntu','UFW','cloud-init'], highlight:true },
+      { id:4,  date:'2026-03-30', readMin:6,  category:'CS Projects', title:"Writing a Tiny C Memory Allocator",                          excerpt:"Implementing malloc/free from scratch with a free-list and coalescing — and benchmarking it against glibc.",                     tags:['C','Systems','Memory'] },
+      { id:5,  date:'2026-03-18', readMin:10, category:'Security',    title:"Nmap Discovery on My Own Lab Network",                       excerpt:"Mapping a VMware lab subnet end-to-end: host discovery, service fingerprinting, and turning scan output into useful inventory.",   tags:['Nmap','Recon','Lab'] },
+      { id:6,  date:'2026-03-02', readMin:8,  category:'Linux',       title:"SSH Keys Done Right",                                        excerpt:"Modern key types, agent forwarding pitfalls, and the sshd_config knobs that actually move the needle for a hardened login.",   tags:['OpenSSH','Linux'] },
+      { id:7,  date:'2026-02-20', readMin:11, category:'Networking',  title:"Subnetting Without the Cheatsheet",                         excerpt:"Building the intuition for CIDR math so you can split networks on paper — fast — without reaching for a calculator.",          tags:['Networking','CIDR'] },
+      { id:8,  date:'2026-02-04', readMin:5,  category:'Reflections', title:"Why I Document Every Lab",                                   excerpt:"Notes on the writeup habit — why long-form documentation is the single best thing I do for my own learning curve.",           tags:['Process','Notes'] },
+      { id:9,  date:'2026-01-22', readMin:9,  category:'CS Projects', title:"A SQL Query Optimizer Mini-Project",                         excerpt:"Hand-rolling a tiny rule-based query planner in Python — predicate pushdown, join reordering, and what the EXPLAIN really means.", tags:['SQL','Python','DB'] },
+      { id:10, date:'2026-01-08', readMin:6,  category:'Security',    title:"UFW vs nftables: When to Reach for Which",                   excerpt:"A pragmatic comparison after running both in production-style labs — including the moments when UFW's simplicity becomes a liability.", tags:['UFW','nftables','Firewall'] },
+      { id:11, date:'2025-12-19', readMin:7,  category:'Reflections', title:"Working with Claude and Copilot Without Losing the Plot",    excerpt:"My hybrid workflow for AI-assisted coding: where I let the model lead, where I take back the wheel, and how I keep ownership of the logic.", tags:['AI','Workflow'] },
+      { id:12, date:'2025-12-05', readMin:8,  category:'Linux',       title:"Systemd Units I Actually Use",                               excerpt:"A small but well-worn collection of timer and service unit patterns for backups, health checks, and recurring lab chores.",    tags:['systemd','Linux'] },
+    ];
+
+    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+    const fmtDate = iso => { const d = new Date(iso+'T00:00:00'); return { day:String(d.getDate()).padStart(2,'0'), mon:MONTHS[d.getMonth()], yr:d.getFullYear() }; };
+    const fmtLong = iso => new Date(iso+'T00:00:00').toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+
+    // Feature card (latest post)
+    const featured = POSTS.find(p => p.featured) || POSTS[0];
+    document.getElementById('featureDate').textContent = fmtLong(featured.date) + ' · ' + featured.readMin + ' min read';
+    document.getElementById('featureTitle').textContent = featured.title;
+    document.getElementById('featureExcerpt').textContent = featured.excerpt;
+    document.getElementById('featureChips').innerHTML = featured.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+
+    // Highlights
+    document.getElementById('highlights').innerHTML = POSTS.filter(p=>p.highlight).slice(0,3).map((p,i)=>{
+      const d = fmtDate(p.date);
+      return `<a class="hl-card" href="#post-${p.id}">
+        <div class="hl-meta"><span class="hl-num">H / 0${i+1}</span><span class="hl-cat">${p.category}</span></div>
         <h3 class="hl-title">${p.title}</h3>
         <p class="hl-excerpt">${p.excerpt}</p>
-        <div class="hl-foot">
-          <span class="mono">${d.mon} ${d.day} · ${d.yr}</span>
-          <span class="read">Read &rarr;</span>
-        </div>
-      </a>
-    `;
-  }).join('');
+        <div class="hl-foot"><span>${d.mon} ${d.day} &middot; ${d.yr}</span><span class="hl-read">Read &rarr;</span></div>
+      </a>`;
+    }).join('');
 
-  // ----- filters -----
-  const categories = ['All', ...Array.from(new Set(POSTS.map(p => p.category)))];
-  const pillsEl = document.getElementById('filterPills');
-  pillsEl.innerHTML = categories.map((c, i) =>
-    `<button class="filter-pill ${i===0?'active':''}" data-cat="${c}">${c}</button>`
-  ).join('');
+    // Filters
+    const categories = ['All',...new Set(POSTS.map(p=>p.category))];
+    document.getElementById('filterPills').innerHTML = categories.map((c,i)=>
+      `<button class="filter-pill${i===0?' active':''}" data-cat="${c}">${c}</button>`
+    ).join('');
 
-  let activeCat = 'All';
-  let query = '';
+    let activeCat='All', query='';
 
-  pillsEl.addEventListener('click', (e) => {
-    const btn = e.target.closest('.filter-pill');
-    if (!btn) return;
-    pillsEl.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-    btn.classList.add('active');
-    activeCat = btn.dataset.cat;
-    renderFeed();
-  });
+    document.getElementById('filterPills').addEventListener('click', e=>{
+      const btn = e.target.closest('.filter-pill');
+      if (!btn) return;
+      document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      activeCat = btn.dataset.cat;
+      renderFeed();
+    });
+    document.getElementById('searchInput').addEventListener('input', e=>{ query=e.target.value.trim().toLowerCase(); renderFeed(); });
 
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    query = e.target.value.trim().toLowerCase();
-    renderFeed();
-  });
-
-  // ----- feed render -----
-  const feedEl = document.getElementById('feed');
-  function renderFeed() {
-    const filtered = POSTS
-      .filter(p => activeCat === 'All' || p.category === activeCat)
-      .filter(p => {
-        if (!query) return true;
-        const hay = (p.title + ' ' + p.excerpt + ' ' + p.tags.join(' ') + ' ' + p.category).toLowerCase();
-        return hay.includes(query);
-      })
-      .sort((a,b) => b.date.localeCompare(a.date));
-
-    if (!filtered.length) {
-      feedEl.innerHTML = `<div class="feed-empty">// No posts match that filter</div>`;
-    } else {
-      feedEl.innerHTML = filtered.map(p => {
+    function renderFeed(){
+      const filtered = POSTS
+        .filter(p => activeCat==='All' || p.category===activeCat)
+        .filter(p => !query || (p.title+' '+p.excerpt+' '+p.tags.join(' ')+' '+p.category).toLowerCase().includes(query))
+        .sort((a,b)=>b.date.localeCompare(a.date));
+      const feedEl = document.getElementById('feed');
+      feedEl.innerHTML = filtered.length ? filtered.map(p=>{
         const d = fmtDate(p.date);
-        return `
-          <a class="feed-row" id="post-${p.id}" href="#">
-            <div class="feed-date mono">${d.mon} ${d.day}<br/><span class="yr">${d.yr}</span></div>
-            <div class="feed-main">
-              <h3 class="feed-title">${p.title}</h3>
-              <p class="feed-snip">${p.excerpt}</p>
-            </div>
-            <div class="feed-tags">
-              ${p.tags.slice(0,3).map(t => `<span class="feed-tag">${t}</span>`).join('')}
-            </div>
-            <div class="feed-read mono">${p.readMin} min &rarr;</div>
-          </a>
-        `;
-      }).join('');
+        return `<a class="feed-row" id="post-${p.id}" href="#">
+          <div class="feed-date">${d.mon} ${d.day}<br/><span class="yr">${d.yr}</span></div>
+          <div class="feed-main"><h3 class="feed-title">${p.title}</h3><p class="feed-snip">${p.excerpt}</p></div>
+          <div class="feed-tags">${p.tags.slice(0,3).map(t=>`<span class="feed-tag">${t}</span>`).join('')}</div>
+          <div class="feed-read">${p.readMin} min &rarr;</div>
+        </a>`;
+      }).join('') : `<div class="feed-empty">// No posts match that filter</div>`;
+      document.getElementById('footCount').textContent = filtered.length;
+      document.getElementById('footTotal').textContent = POSTS.length;
+      document.getElementById('resultsCount').textContent = filtered.length+' results';
     }
-    document.getElementById('footCount').textContent = filtered.length;
-    document.getElementById('footTotal').textContent = POSTS.length;
-    document.getElementById('resultsCount').textContent = filtered.length + ' results';
-  }
-  renderFeed();
+    renderFeed();
 
-  // hero meta
-  document.getElementById('metaCount').textContent = POSTS.length;
-  document.getElementById('metaLast').textContent = fmtLong(POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date))[0].date);
-</script>
+    // Hero meta
+    document.getElementById('metaCount').textContent = POSTS.length;
+    document.getElementById('metaLast').textContent = fmtLong(POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date))[0].date);
+  </script>
 
 </body>
 </html>

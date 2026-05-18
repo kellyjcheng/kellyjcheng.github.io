@@ -4,9 +4,171 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Documentation | Kelly Cheng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <style>
     body { background-image: url('../images/cyber-bg.jpg'); }
+
+    /* Doc-specific tokens */
+    :root {
+      --dc-line:      rgba(93,196,255,0.18);
+      --dc-line-soft: rgba(93,196,255,0.08);
+      --dc-ink-dim:   #97a8b8;
+      --dc-ink-mute:  #5d6f81;
+      --dc-cyan:      #5dc4ff;
+      --dc-amber:     #f4b366;
+      --dc-green:     #6ad19a;
+    }
+
+    /* ── Docs intro ── */
+    .docs-intro {
+      padding: 3.5rem 4rem 2rem;
+      border-bottom: 1px solid var(--dc-line-soft);
+    }
+    .docs-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.32em; color: var(--dc-cyan);
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    .docs-eyebrow::before {
+      content: ''; display: inline-block; width: 22px; height: 1px; background: var(--dc-cyan);
+    }
+    .docs-sub {
+      margin: 0.6rem 0 0; max-width: 680px;
+      color: var(--subtext); font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.6;
+    }
+    .docs-meta {
+      margin-top: 1.25rem; display: flex; gap: 28px; flex-wrap: wrap;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dc-ink-mute);
+    }
+    .docs-meta b { color: var(--dc-cyan); font-weight: 500; margin-right: 6px; }
+
+    /* ── Two-column layout: TOC + content ── */
+    .docs-wrap {
+      display: grid; grid-template-columns: 260px 1fr; gap: 64px;
+      padding: 64px 4rem 96px;
+    }
+
+    /* TOC sidebar */
+    .toc {
+      position: sticky; top: 110px; align-self: start;
+      max-height: calc(100vh - 120px); overflow-y: auto; padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-thumb { background: rgba(93,196,255,0.2); border-radius: 3px; }
+    .toc-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.3em; color: var(--dc-cyan); text-transform: uppercase;
+      margin: 0 0 18px; padding-bottom: 10px; border-bottom: 1px solid var(--dc-line-soft);
+    }
+    .toc-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+    .toc-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 0 8px 14px; color: var(--dc-ink-dim);
+      font-family: 'Inter', sans-serif; font-size: 13px;
+      border-left: 2px solid transparent; transition: all 160ms ease; line-height: 1.3;
+      text-decoration: none;
+    }
+    .toc-link:hover { color: #e6f0fa; border-left-color: rgba(93,196,255,0.3); }
+    .toc-link.active { color: var(--dc-cyan); border-left-color: var(--dc-cyan); }
+    .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dc-ink-mute); flex-shrink: 0; min-width: 18px; }
+    .toc-link.active .toc-num { color: var(--dc-cyan); }
+
+    /* Content area */
+    .docs-content { min-width: 0; }
+    .doc-section { margin-bottom: 88px; scroll-margin-top: 110px; }
+    .doc-section:last-child { margin-bottom: 0; }
+
+    .doc-kicker {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--dc-cyan); margin-bottom: 16px;
+    }
+    .doc-badge {
+      padding: 3px 8px; border: 1px solid var(--dc-cyan); color: var(--dc-cyan);
+      font-size: 10px; letter-spacing: 0.2em; font-family: 'Inter', sans-serif;
+    }
+    .doc-badge.competition { color: var(--dc-amber); border-color: var(--dc-amber); }
+    .doc-badge.cert        { color: var(--dc-green); border-color: var(--dc-green); }
+
+    .doc-title {
+      font-family: 'Oswald', sans-serif; text-transform: uppercase;
+      font-size: 52px; line-height: 1.05; font-weight: 700;
+      color: #fff; margin: 0 0 18px; position: relative; padding-bottom: 16px;
+    }
+    .doc-title::after {
+      content: ''; position: absolute; left: 0; bottom: 0; width: 56px; height: 2px; background: var(--dc-cyan);
+    }
+    .doc-meta {
+      display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 22px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dc-ink-mute);
+    }
+    .doc-meta b { color: #e6f0fa; font-weight: 500; margin-right: 6px; }
+    .doc-status { display: inline-flex; align-items: center; gap: 8px; color: var(--dc-green); }
+    .doc-status.in-progress { color: var(--dc-amber); }
+    .doc-status .dot {
+      width: 6px; height: 6px; border-radius: 50%; background: currentColor;
+      animation: dotpulse 2.2s ease-out infinite;
+    }
+    @keyframes dotpulse {
+      0%   { box-shadow: 0 0 0 0   rgba(106,209,154,0.6); }
+      70%  { box-shadow: 0 0 0 8px rgba(106,209,154,0); }
+      100% { box-shadow: 0 0 0 0   rgba(106,209,154,0); }
+    }
+
+    .doc-summary {
+      font-family: 'Inter', sans-serif;
+      color: var(--dc-ink-dim); font-size: 15px; line-height: 1.65; margin: 0 0 28px; max-width: 760px;
+    }
+    .doc-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .doc-chip {
+      font-family: 'Inter', sans-serif;
+      padding: 5px 12px; border: 1px solid var(--dc-cyan); color: var(--dc-cyan);
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 999px;
+    }
+
+    /* Subtopic cards */
+    .subtopics { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .subtopics.single { grid-template-columns: 1fr; }
+    .sub-card {
+      border: 1px solid var(--dc-line); background: rgba(10,24,40,0.6);
+      padding: 24px; display: flex; flex-direction: column;
+      transition: all 220ms ease; position: relative; overflow: hidden; cursor: pointer;
+    }
+    .sub-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+      background: var(--dc-cyan); transform: scaleX(0); transform-origin: left;
+      transition: transform 280ms ease;
+    }
+    .sub-card:hover { border-color: var(--dc-cyan); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(93,196,255,0.1); }
+    .sub-card:hover::before { transform: scaleX(1); }
+    .sub-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+    .sub-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dc-cyan); letter-spacing: 0.18em; }
+    .sub-pages { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dc-ink-mute); letter-spacing: 0.1em; flex-shrink: 0; }
+    .sub-title { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 20px; line-height: 1.15; font-weight: 600; color: #fff; margin: 0 0 12px; }
+    .sub-desc { font-family: 'Inter', sans-serif; color: var(--dc-ink-dim); font-size: 13px; line-height: 1.6; margin: 0 0 20px; flex: 1; }
+    .sub-cta {
+      display: inline-flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 16px; border: 1px solid var(--dc-cyan); color: var(--dc-cyan);
+      font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 0.26em; text-transform: uppercase;
+      background: transparent; transition: all 200ms ease; cursor: pointer; width: 100%; text-decoration: none;
+    }
+    .sub-cta:hover { background: var(--dc-cyan); color: #07111e; }
+    .sub-cta svg { transition: transform 200ms ease; }
+    .sub-cta:hover svg { transform: translate(2px,-2px); }
+
+    @media (max-width: 980px) {
+      .docs-wrap { grid-template-columns: 1fr; gap: 32px; padding: 40px 1.5rem 64px; }
+      .toc { position: static; max-height: none; }
+      .subtopics { grid-template-columns: 1fr; }
+      .docs-intro { padding: 2rem 1.5rem 1.5rem; }
+      .doc-title { font-size: 38px; }
+    }
   </style>
 </head>
 <body>
@@ -24,12 +186,169 @@
 
   <div class="page">
 
-    <!-- ── Hero ── -->
-    <section class="docs-hero">
+    <!-- ── Intro ── -->
+    <section class="docs-intro">
+      <span class="docs-eyebrow">Writeups &middot; reports &middot; printable references</span>
       <h1 class="page-title">Documentation</h1>
+      <p class="docs-sub">Formal writeups and reference documents for the projects, competitions, and labs I've completed — each linked as a printable, self-contained report.</p>
+      <div class="docs-meta">
+        <span><b id="metaDocs">—</b> Documents</span>
+        <span><b id="metaProjects">—</b> Projects</span>
+        <span><b id="metaComps">—</b> Competitions</span>
+        <span><b>2026</b> Current archive</span>
+      </div>
     </section>
 
-  </div>
+    <!-- ── TOC + Content ── -->
+    <div class="docs-wrap">
+
+      <aside class="toc" aria-label="Documentation contents">
+        <h2 class="toc-title">// Contents</h2>
+        <ul class="toc-list" id="tocList"></ul>
+      </aside>
+
+      <main class="docs-content" id="docsContent"></main>
+
+    </div>
+
+  </div><!-- /.page -->
+
+  <script>
+    const ENTRIES = [
+      {
+        id:'nginx-hardening', type:'project', title:'Nginx Hardening Lab',
+        period:'Apr 2026', status:'complete', stack:['Nginx','TLS','Linux','UFW'],
+        summary:"End-to-end hardening of an Nginx reverse proxy: TLS configuration, HSTS, rate limiting, request filtering, and the OS-level controls that backstop the application layer. Each subtopic links to its own printable report.",
+        subtopics:[
+          { tag:'A.1', title:'TLS &amp; Cipher Configuration',   pages:'6 pp', desc:"Certificate setup, modern cipher suites, OCSP stapling, and the rationale behind every directive.",                                  doc:'docs/nginx-tls.html' },
+          { tag:'A.2', title:'Rate Limiting &amp; Connection Caps', pages:'4 pp', desc:"limit_req / limit_conn zones, burst tuning, and how the same config behaves under synthetic load tests.",                           doc:'docs/nginx-rate-limits.html' },
+          { tag:'A.3', title:'OS-Level Hardening',                pages:'5 pp', desc:"UFW rules, sysctl knobs, file permissions, and the runtime sandbox that contains the worker processes.",                              doc:'docs/nginx-os.html' },
+        ],
+      },
+      {
+        id:'wireshark-tls', type:'project', title:'TLS Handshake Analysis',
+        period:'Mar 2026', status:'complete', stack:['Wireshark','TLS','PCAP'],
+        summary:"Packet-by-packet annotation of TLS 1.2 and TLS 1.3 handshakes captured in a controlled lab. Documents include the original PCAP excerpts and inline commentary on each negotiated extension.",
+        subtopics:[
+          { tag:'B.1', title:'TLS 1.3 Handshake Walkthrough',              pages:'8 pp', desc:"ClientHello through Finished, with extension-by-extension commentary on the negotiated parameters.",                         doc:'docs/wireshark-tls13.html' },
+          { tag:'B.2', title:'TLS 1.2 Comparison &amp; Downgrade Risks',   pages:'5 pp', desc:"Side-by-side capture of a TLS 1.2 session, plus the known downgrade and renegotiation attack surfaces.",                   doc:'docs/wireshark-tls12.html' },
+        ],
+      },
+      {
+        id:'natcyber', type:'competition', title:'National Cyber Challenge — 2026',
+        period:'Feb 2026 · Regional Round', status:'complete', stack:['CTF','Forensics','Web Exploitation','Crypto'],
+        summary:"Writeups for every challenge I solved during the regional round of a national-level cybersecurity competition. Each report covers the vulnerability, the exploitation path, and the lesson kept for the next round.",
+        subtopics:[
+          { tag:'C.1', title:'Web Exploitation Track',          pages:'12 pp', desc:"Solutions for the six web challenges — SQLi, SSTI, prototype pollution, and a JWT chain.",                                            doc:'docs/natcyber-web.html' },
+          { tag:'C.2', title:'Forensics &amp; Memory',          pages:'9 pp',  desc:"Volatility-based memory analysis and disk-image carving across three forensics challenges.",                                           doc:'docs/natcyber-forensics.html' },
+          { tag:'C.3', title:'Cryptography Track',              pages:'7 pp',  desc:"RSA weak-key recovery, AES-CBC padding oracle, and an ECDSA nonce reuse exploit.",                                                    doc:'docs/natcyber-crypto.html' },
+          { tag:'C.4', title:'Post-Competition Reflection',     pages:'3 pp',  desc:"What worked, what cost time, and the prep plan for the national round.",                                                               doc:'docs/natcyber-reflection.html' },
+        ],
+      },
+      {
+        id:'memory-allocator', type:'project', title:'Custom C Memory Allocator',
+        period:'Mar 2026', status:'complete', stack:['C','Systems','Linux'],
+        summary:"A minimal malloc/free implementation built from scratch with a segregated free-list and block coalescing — documented with benchmark methodology and comparison against glibc's allocator.",
+        subtopics:[
+          { tag:'D.1', title:'Design &amp; Implementation Notes', pages:'10 pp', desc:"Data structures, block layout, the splitting/coalescing strategy, and the rationale behind each tradeoff.",                          doc:'docs/sample-doc.html' },
+          { tag:'D.2', title:'Benchmark Report',                   pages:'6 pp',  desc:"Methodology, workloads, and results against glibc — with caveats on where my allocator is and isn't competitive.",                 doc:'docs/sample-doc.html' },
+        ],
+      },
+      {
+        id:'capture-the-shell', type:'competition', title:'Capture-the-Shell Hackathon',
+        period:'Jan 2026 · 48 hours', status:'complete', stack:['Reverse Engineering','Pwn','Linux'],
+        summary:"A 48-hour binary exploitation hackathon. Reports cover each successful pwn — ROP chains, format-string leaks, and the heap exploitation we learned to do in real time.",
+        subtopics:[
+          { tag:'E.1', title:'Binary Exploitation Writeups', pages:'14 pp', desc:"Full writeups for the four binaries solved during the event, including disassembly excerpts.",                                            doc:'docs/sample-doc.html' },
+        ],
+      },
+      {
+        id:'sql-optimizer', type:'project', title:'SQL Query Optimizer (Mini)',
+        period:'Jan 2026', status:'in-progress', stack:['Python','SQL','DB Internals'],
+        summary:"A rule-based query planner I'm building in Python — currently supports predicate pushdown and join reordering on a toy relational engine. Documentation will expand as the implementation does.",
+        subtopics:[
+          { tag:'F.1', title:'Planner Architecture', pages:'5 pp', desc:"AST shape, the rule-rewrite loop, and how the planner emits a physical plan to the executor.",                                                    doc:'docs/sample-doc.html' },
+        ],
+      },
+      {
+        id:'comptia-sec', type:'cert', title:'CompTIA Security+ Prep Notes',
+        period:'Ongoing · 2026', status:'in-progress', stack:['Security','Theory','Reference'],
+        summary:"Condensed study notes organized by exam domain. Living document — updated as I rotate through the official objectives. Not exam dump material; my own synthesis of each topic.",
+        subtopics:[
+          { tag:'G.1', title:'Domain 1 — Threats &amp; Attacks',       pages:'8 pp', desc:"Threat actors, attack vectors, social engineering classifications, and indicators of compromise.",                               doc:'docs/sample-doc.html' },
+          { tag:'G.2', title:'Domain 2 — Architecture &amp; Design',   pages:'7 pp', desc:"Secure network and system architecture patterns, virtualization, and cloud security primitives.",                                doc:'docs/sample-doc.html' },
+        ],
+      },
+    ];
+
+    const typeLabel = { project:'Project', competition:'Competition', cert:'Certification' };
+
+    // TOC
+    document.getElementById('tocList').innerHTML = ENTRIES.map((e,i)=>`
+      <li><a href="#${e.id}" class="toc-link" data-target="${e.id}">
+        <span class="toc-num">0${i+1}</span><span>${e.title}</span>
+      </a></li>
+    `).join('');
+
+    // Content
+    document.getElementById('docsContent').innerHTML = ENTRIES.map((e,i)=>{
+      const statusCls  = e.status==='in-progress' ? 'doc-status in-progress' : 'doc-status';
+      const statusText = e.status==='in-progress' ? 'In progress' : 'Complete';
+      return `
+        <article class="doc-section" id="${e.id}">
+          <header>
+            <div class="doc-kicker">
+              <span style="font-family:'JetBrains Mono',monospace">// ${String(i+1).padStart(2,'0')}</span>
+              <span class="doc-badge ${e.type}">${typeLabel[e.type]}</span>
+            </div>
+            <h2 class="doc-title">${e.title}</h2>
+            <div class="doc-meta">
+              <span><b>Period</b>${e.period}</span>
+              <span class="${statusCls}"><span class="dot"></span>${statusText}</span>
+              <span><b>Docs</b>${e.subtopics.length}</span>
+            </div>
+            <p class="doc-summary">${e.summary}</p>
+            <div class="doc-chip-row">${e.stack.map(s=>`<span class="doc-chip">${s}</span>`).join('')}</div>
+          </header>
+          <div class="subtopics${e.subtopics.length===1?' single':''}">
+            ${e.subtopics.map(s=>`
+              <div class="sub-card" onclick="window.open('${s.doc}','_blank')">
+                <div class="sub-head">
+                  <span class="sub-tag">${s.tag}</span>
+                  <span class="sub-pages">${s.pages}</span>
+                </div>
+                <h3 class="sub-title">${s.title}</h3>
+                <p class="sub-desc">${s.desc}</p>
+                <a class="sub-cta" href="${s.doc}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                  <span style="display:inline-flex;align-items:center;gap:8px">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="1.5" width="9" height="11" rx="0.5"/><path d="M4.5 5h5M4.5 7.5h5M4.5 10h3"/></svg>
+                    Open Document
+                  </span>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg>
+                </a>
+              </div>
+            `).join('')}
+          </div>
+        </article>`;
+    }).join('');
+
+    // Meta counts
+    document.getElementById('metaDocs').textContent     = ENTRIES.reduce((a,e)=>a+e.subtopics.length,0);
+    document.getElementById('metaProjects').textContent = ENTRIES.filter(e=>e.type==='project').length;
+    document.getElementById('metaComps').textContent    = ENTRIES.filter(e=>e.type==='competition').length;
+
+    // Scroll-spy
+    const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
+    const sections = ENTRIES.map(e=>document.getElementById(e.id));
+    function updateActive(){
+      const y = window.scrollY + 130;
+      let activeId = sections[0]?.id;
+      for (const s of sections){ if (s && s.offsetTop <= y) activeId = s.id; }
+      tocLinks.forEach(l=>l.classList.toggle('active', l.dataset.target===activeId));
+    }
+    window.addEventListener('scroll', updateActive, { passive:true });
+    updateActive();
+  </script>
 
 </body>
 </html>
