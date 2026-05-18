@@ -214,71 +214,30 @@
   </div><!-- /.page -->
 
   <script>
+    /*
+     * ENTRY FORMAT — add real documentation entries inside the ENTRIES array below.
+     *
+     * {
+     *   id:      'unique-slug',         // used for TOC anchor links
+     *   type:    'project',             // 'project' | 'competition' | 'cert'
+     *   title:   'Entry Title',
+     *   period:  'Mon YYYY',            // e.g. 'Apr 2026' or 'Feb 2026 · Regional Round'
+     *   status:  'complete',            // 'complete' | 'in-progress'
+     *   stack:   ['Tech1', 'Tech2'],    // displayed as chips
+     *   summary: "One paragraph description of the project / competition / cert.",
+     *   subtopics: [
+     *     {
+     *       tag:   'A.1',               // section label shown in the card header
+     *       title: 'Subtopic Title',
+     *       pages: 'N pp',             // optional page count
+     *       desc:  "Short description of what this document covers.",
+     *       doc:   'docs/filename.html', // path to the printable report
+     *     },
+     *   ],
+     * },
+     */
     const ENTRIES = [
-      {
-        id:'nginx-hardening', type:'project', title:'Nginx Hardening Lab',
-        period:'Apr 2026', status:'complete', stack:['Nginx','TLS','Linux','UFW'],
-        summary:"End-to-end hardening of an Nginx reverse proxy: TLS configuration, HSTS, rate limiting, request filtering, and the OS-level controls that backstop the application layer. Each subtopic links to its own printable report.",
-        subtopics:[
-          { tag:'A.1', title:'TLS &amp; Cipher Configuration',   pages:'6 pp', desc:"Certificate setup, modern cipher suites, OCSP stapling, and the rationale behind every directive.",                                  doc:'docs/nginx-tls.html' },
-          { tag:'A.2', title:'Rate Limiting &amp; Connection Caps', pages:'4 pp', desc:"limit_req / limit_conn zones, burst tuning, and how the same config behaves under synthetic load tests.",                           doc:'docs/nginx-rate-limits.html' },
-          { tag:'A.3', title:'OS-Level Hardening',                pages:'5 pp', desc:"UFW rules, sysctl knobs, file permissions, and the runtime sandbox that contains the worker processes.",                              doc:'docs/nginx-os.html' },
-        ],
-      },
-      {
-        id:'wireshark-tls', type:'project', title:'TLS Handshake Analysis',
-        period:'Mar 2026', status:'complete', stack:['Wireshark','TLS','PCAP'],
-        summary:"Packet-by-packet annotation of TLS 1.2 and TLS 1.3 handshakes captured in a controlled lab. Documents include the original PCAP excerpts and inline commentary on each negotiated extension.",
-        subtopics:[
-          { tag:'B.1', title:'TLS 1.3 Handshake Walkthrough',              pages:'8 pp', desc:"ClientHello through Finished, with extension-by-extension commentary on the negotiated parameters.",                         doc:'docs/wireshark-tls13.html' },
-          { tag:'B.2', title:'TLS 1.2 Comparison &amp; Downgrade Risks',   pages:'5 pp', desc:"Side-by-side capture of a TLS 1.2 session, plus the known downgrade and renegotiation attack surfaces.",                   doc:'docs/wireshark-tls12.html' },
-        ],
-      },
-      {
-        id:'natcyber', type:'competition', title:'National Cyber Challenge — 2026',
-        period:'Feb 2026 · Regional Round', status:'complete', stack:['CTF','Forensics','Web Exploitation','Crypto'],
-        summary:"Writeups for every challenge I solved during the regional round of a national-level cybersecurity competition. Each report covers the vulnerability, the exploitation path, and the lesson kept for the next round.",
-        subtopics:[
-          { tag:'C.1', title:'Web Exploitation Track',          pages:'12 pp', desc:"Solutions for the six web challenges — SQLi, SSTI, prototype pollution, and a JWT chain.",                                            doc:'docs/natcyber-web.html' },
-          { tag:'C.2', title:'Forensics &amp; Memory',          pages:'9 pp',  desc:"Volatility-based memory analysis and disk-image carving across three forensics challenges.",                                           doc:'docs/natcyber-forensics.html' },
-          { tag:'C.3', title:'Cryptography Track',              pages:'7 pp',  desc:"RSA weak-key recovery, AES-CBC padding oracle, and an ECDSA nonce reuse exploit.",                                                    doc:'docs/natcyber-crypto.html' },
-          { tag:'C.4', title:'Post-Competition Reflection',     pages:'3 pp',  desc:"What worked, what cost time, and the prep plan for the national round.",                                                               doc:'docs/natcyber-reflection.html' },
-        ],
-      },
-      {
-        id:'memory-allocator', type:'project', title:'Custom C Memory Allocator',
-        period:'Mar 2026', status:'complete', stack:['C','Systems','Linux'],
-        summary:"A minimal malloc/free implementation built from scratch with a segregated free-list and block coalescing — documented with benchmark methodology and comparison against glibc's allocator.",
-        subtopics:[
-          { tag:'D.1', title:'Design &amp; Implementation Notes', pages:'10 pp', desc:"Data structures, block layout, the splitting/coalescing strategy, and the rationale behind each tradeoff.",                          doc:'docs/sample-doc.html' },
-          { tag:'D.2', title:'Benchmark Report',                   pages:'6 pp',  desc:"Methodology, workloads, and results against glibc — with caveats on where my allocator is and isn't competitive.",                 doc:'docs/sample-doc.html' },
-        ],
-      },
-      {
-        id:'capture-the-shell', type:'competition', title:'Capture-the-Shell Hackathon',
-        period:'Jan 2026 · 48 hours', status:'complete', stack:['Reverse Engineering','Pwn','Linux'],
-        summary:"A 48-hour binary exploitation hackathon. Reports cover each successful pwn — ROP chains, format-string leaks, and the heap exploitation we learned to do in real time.",
-        subtopics:[
-          { tag:'E.1', title:'Binary Exploitation Writeups', pages:'14 pp', desc:"Full writeups for the four binaries solved during the event, including disassembly excerpts.",                                            doc:'docs/sample-doc.html' },
-        ],
-      },
-      {
-        id:'sql-optimizer', type:'project', title:'SQL Query Optimizer (Mini)',
-        period:'Jan 2026', status:'in-progress', stack:['Python','SQL','DB Internals'],
-        summary:"A rule-based query planner I'm building in Python — currently supports predicate pushdown and join reordering on a toy relational engine. Documentation will expand as the implementation does.",
-        subtopics:[
-          { tag:'F.1', title:'Planner Architecture', pages:'5 pp', desc:"AST shape, the rule-rewrite loop, and how the planner emits a physical plan to the executor.",                                                    doc:'docs/sample-doc.html' },
-        ],
-      },
-      {
-        id:'comptia-sec', type:'cert', title:'CompTIA Security+ Prep Notes',
-        period:'Ongoing · 2026', status:'in-progress', stack:['Security','Theory','Reference'],
-        summary:"Condensed study notes organized by exam domain. Living document — updated as I rotate through the official objectives. Not exam dump material; my own synthesis of each topic.",
-        subtopics:[
-          { tag:'G.1', title:'Domain 1 — Threats &amp; Attacks',       pages:'8 pp', desc:"Threat actors, attack vectors, social engineering classifications, and indicators of compromise.",                               doc:'docs/sample-doc.html' },
-          { tag:'G.2', title:'Domain 2 — Architecture &amp; Design',   pages:'7 pp', desc:"Secure network and system architecture patterns, virtualization, and cloud security primitives.",                                doc:'docs/sample-doc.html' },
-        ],
-      },
+      // add entries here
     ];
 
     const typeLabel = { project:'Project', competition:'Competition', cert:'Certification' };

@@ -358,19 +358,23 @@
   </div><!-- /.page -->
 
   <script>
+    /*
+     * POST ENTRY FORMAT — add real posts inside the POSTS array below.
+     *
+     * {
+     *   id:       1,                    // unique number
+     *   date:     'YYYY-MM-DD',
+     *   readMin:  N,                    // estimated read time in minutes
+     *   category: 'Security',          // 'Security' | 'Networking' | 'Linux' | 'CS Projects' | 'Reflections' | any new label
+     *   title:    "Post Title",
+     *   excerpt:  "One or two sentence summary shown in cards and the feed.",
+     *   tags:     ['Tag1', 'Tag2'],     // short labels shown as pills
+     *   highlight: true,               // optional — include in Editor's Picks (first 3 shown)
+     *   featured:  true,               // optional — show as the Latest Post hero card (one at a time)
+     * },
+     */
     const POSTS = [
-      { id:1,  date:'2026-05-14', readMin:12, category:'Security',    title:"Hardening Nginx: TLS, Rate Limits, and Defense in Depth",   excerpt:"A full walkthrough of locking down an Nginx reverse proxy — TLS, HSTS, rate limiting, request filtering, and OS-level hardening.", tags:['Nginx','TLS','Hardening'], highlight:true, featured:true },
-      { id:2,  date:'2026-04-29', readMin:9,  category:'Networking',  title:"Reading TLS Handshakes in Wireshark",                        excerpt:"Annotating a real ClientHello/ServerHello capture packet by packet — what each extension actually negotiates and why it matters.",   tags:['Wireshark','TLS','PCAP'], highlight:true },
-      { id:3,  date:'2026-04-12', readMin:7,  category:'Linux',       title:"Building a Minimal Ubuntu Server Image",                     excerpt:"Stripping a base Ubuntu install down to a reproducible, auditable server image with cloud-init and ufw rules baked in.",           tags:['Ubuntu','UFW','cloud-init'], highlight:true },
-      { id:4,  date:'2026-03-30', readMin:6,  category:'CS Projects', title:"Writing a Tiny C Memory Allocator",                          excerpt:"Implementing malloc/free from scratch with a free-list and coalescing — and benchmarking it against glibc.",                     tags:['C','Systems','Memory'] },
-      { id:5,  date:'2026-03-18', readMin:10, category:'Security',    title:"Nmap Discovery on My Own Lab Network",                       excerpt:"Mapping a VMware lab subnet end-to-end: host discovery, service fingerprinting, and turning scan output into useful inventory.",   tags:['Nmap','Recon','Lab'] },
-      { id:6,  date:'2026-03-02', readMin:8,  category:'Linux',       title:"SSH Keys Done Right",                                        excerpt:"Modern key types, agent forwarding pitfalls, and the sshd_config knobs that actually move the needle for a hardened login.",   tags:['OpenSSH','Linux'] },
-      { id:7,  date:'2026-02-20', readMin:11, category:'Networking',  title:"Subnetting Without the Cheatsheet",                         excerpt:"Building the intuition for CIDR math so you can split networks on paper — fast — without reaching for a calculator.",          tags:['Networking','CIDR'] },
-      { id:8,  date:'2026-02-04', readMin:5,  category:'Reflections', title:"Why I Document Every Lab",                                   excerpt:"Notes on the writeup habit — why long-form documentation is the single best thing I do for my own learning curve.",           tags:['Process','Notes'] },
-      { id:9,  date:'2026-01-22', readMin:9,  category:'CS Projects', title:"A SQL Query Optimizer Mini-Project",                         excerpt:"Hand-rolling a tiny rule-based query planner in Python — predicate pushdown, join reordering, and what the EXPLAIN really means.", tags:['SQL','Python','DB'] },
-      { id:10, date:'2026-01-08', readMin:6,  category:'Security',    title:"UFW vs nftables: When to Reach for Which",                   excerpt:"A pragmatic comparison after running both in production-style labs — including the moments when UFW's simplicity becomes a liability.", tags:['UFW','nftables','Firewall'] },
-      { id:11, date:'2025-12-19', readMin:7,  category:'Reflections', title:"Working with Claude and Copilot Without Losing the Plot",    excerpt:"My hybrid workflow for AI-assisted coding: where I let the model lead, where I take back the wheel, and how I keep ownership of the logic.", tags:['AI','Workflow'] },
-      { id:12, date:'2025-12-05', readMin:8,  category:'Linux',       title:"Systemd Units I Actually Use",                               excerpt:"A small but well-worn collection of timer and service unit patterns for backups, health checks, and recurring lab chores.",    tags:['systemd','Linux'] },
+      // add posts here
     ];
 
     const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -379,10 +383,14 @@
 
     // Feature card (latest post)
     const featured = POSTS.find(p => p.featured) || POSTS[0];
-    document.getElementById('featureDate').textContent = fmtLong(featured.date) + ' · ' + featured.readMin + ' min read';
-    document.getElementById('featureTitle').textContent = featured.title;
-    document.getElementById('featureExcerpt').textContent = featured.excerpt;
-    document.getElementById('featureChips').innerHTML = featured.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+    if (featured) {
+      document.getElementById('featureDate').textContent = fmtLong(featured.date) + ' · ' + featured.readMin + ' min read';
+      document.getElementById('featureTitle').textContent = featured.title;
+      document.getElementById('featureExcerpt').textContent = featured.excerpt;
+      document.getElementById('featureChips').innerHTML = featured.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+    } else {
+      document.querySelector('.bl-section').style.display = 'none';
+    }
 
     // Highlights
     document.getElementById('highlights').innerHTML = POSTS.filter(p=>p.highlight).slice(0,3).map((p,i)=>{
@@ -436,7 +444,9 @@
 
     // Hero meta
     document.getElementById('metaCount').textContent = POSTS.length;
-    document.getElementById('metaLast').textContent = fmtLong(POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date))[0].date);
+    document.getElementById('metaLast').textContent = POSTS.length
+      ? fmtLong(POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date))[0].date)
+      : '—';
   </script>
 
 </body>
