@@ -6,7 +6,7 @@
   <title>Blog | Kelly Cheng</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Oswald:wght@500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
   <style>
     body { background-image: url('../images/cyber-bg.jpg'); }
@@ -235,6 +235,308 @@
       .feed-tags, .feed-read { display: none; }
       .bl-section-header { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ═══════════════════════════════════════════════
+       POST MODAL
+       ═══════════════════════════════════════════════ */
+
+    /* Scoped CSS vars — inherited by all modal children */
+    .overlay {
+      --mo-panel-border:        rgba(120,170,255,0.22);
+      --mo-panel-border-strong: rgba(140,190,255,0.40);
+      --mo-panel-tint:          rgba(20,42,92,0.55);
+      --mo-panel-tint-strong:   rgba(15,32,78,0.78);
+      --mo-accent:              #4ea3ff;
+      --mo-accent-bright:       #7fc0ff;
+      --mo-accent-dim:          #3a7ad9;
+      --mo-text:                #eaf1ff;
+      --mo-muted:               #9eb1d8;
+      --mo-dim:                 #6378a3;
+      --mo-warn:                #ffb766;
+      --mo-danger:              #ff7a7a;
+
+      position: fixed; inset: 0; z-index: 1000;
+      background: rgba(2,6,20,0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 4vh 4vw;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .overlay.open { opacity: 1; pointer-events: auto; }
+
+    .modal {
+      position: relative;
+      width: min(960px, 100%); height: min(92vh, 900px);
+      background:
+        linear-gradient(180deg, rgba(40,80,160,0.22), rgba(15,32,78,0.18)),
+        var(--mo-panel-tint);
+      backdrop-filter: blur(28px) saturate(140%); -webkit-backdrop-filter: blur(28px) saturate(140%);
+      border: 1px solid var(--mo-panel-border-strong);
+      border-radius: 14px;
+      box-shadow: 0 0 0 1px rgba(140,190,255,0.05), 0 30px 80px rgba(0,10,40,0.55), 0 0 120px rgba(78,163,255,0.10);
+      overflow: hidden; display: flex; flex-direction: column;
+      transform: translateY(16px) scale(0.98);
+      transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1);
+    }
+    .overlay.open .modal { transform: none; }
+    .modal::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(140,200,255,0.6), transparent);
+      pointer-events: none;
+    }
+
+    .modal-header {
+      flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 28px;
+      border-bottom: 1px solid rgba(140,190,255,0.14);
+      background: linear-gradient(180deg, rgba(20,50,110,0.45), rgba(20,50,110,0.15));
+    }
+    .mo-header-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; letter-spacing: 0.18em; color: var(--mo-accent);
+      text-transform: uppercase; display: flex; align-items: center; gap: 12px;
+    }
+    .mo-header-id::before { content: ''; width: 24px; height: 2px; background: var(--mo-accent); }
+    .mo-live {
+      width: 7px; height: 7px; border-radius: 50%; background: var(--mo-accent);
+      animation: moPulse 2s infinite; margin-left: 4px;
+    }
+    @keyframes moPulse {
+      0%   { box-shadow: 0 0 0 0   rgba(78,163,255,0.55); }
+      70%  { box-shadow: 0 0 0 9px rgba(78,163,255,0); }
+      100% { box-shadow: 0 0 0 0   rgba(78,163,255,0); }
+    }
+    .mo-header-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 22px; text-transform: uppercase;
+      letter-spacing: 0.02em; color: #fff;
+    }
+    .mo-close-btn {
+      width: 38px; height: 38px;
+      background: rgba(78,163,255,0.08); border: 1px solid rgba(140,190,255,0.25);
+      border-radius: 8px; color: var(--mo-text); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .mo-close-btn:hover {
+      background: rgba(255,100,100,0.15); border-color: rgba(255,130,130,0.5);
+      color: #ffb0b0; transform: rotate(90deg);
+    }
+    .mo-close-btn svg { width: 16px; height: 16px; }
+
+    .modal-body {
+      flex: 1; overflow-y: auto; overflow-x: hidden;
+      padding: 36px 44px 48px;
+      scrollbar-width: thin; scrollbar-color: rgba(140,190,255,0.3) transparent;
+      color: var(--mo-text); font-family: 'Inter', sans-serif;
+    }
+    .modal-body::-webkit-scrollbar { width: 10px; }
+    .modal-body::-webkit-scrollbar-track { background: transparent; }
+    .modal-body::-webkit-scrollbar-thumb {
+      background: rgba(140,190,255,0.25); border-radius: 10px;
+      border: 2px solid transparent; background-clip: padding-box;
+    }
+    .modal-body::-webkit-scrollbar-thumb:hover { background: rgba(140,190,255,0.45); background-clip: padding-box; border: 2px solid transparent; }
+
+    /* ── Hero inside modal ── */
+    .mo-hero { margin-bottom: 36px; }
+    .mo-hero-tag {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+      color: var(--mo-accent); letter-spacing: 0.14em; text-transform: uppercase;
+      background: rgba(78,163,255,0.10); border: 1px solid rgba(78,163,255,0.28);
+      border-radius: 4px; padding: 6px 12px; margin-bottom: 24px;
+    }
+    .mo-hero-tag::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--mo-accent); box-shadow: 0 0 6px var(--mo-accent);
+    }
+    .mo-title {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: clamp(40px,5.8vw,64px); line-height: 0.95;
+      letter-spacing: -0.01em; color: #fff; margin-bottom: 18px; text-transform: uppercase;
+    }
+    .mo-title em { font-style: normal; color: var(--mo-accent-bright); display: block; }
+    .mo-hero-meta {
+      display: flex; flex-wrap: wrap; gap: 14px 22px;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      color: var(--mo-muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 18px;
+    }
+    .mo-hero-meta .dot { color: var(--mo-dim); }
+    .mo-hero-lead {
+      margin-top: 28px; font-size: 17px; line-height: 1.7;
+      color: rgba(234,241,255,0.88);
+      border-left: 2px solid var(--mo-accent); padding-left: 18px;
+    }
+
+    /* ── Stats ── */
+    .mo-stats { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 12px; margin: 36px 0; }
+    .mo-stat {
+      background: rgba(20,45,100,0.35); border: 1px solid rgba(140,190,255,0.16);
+      border-radius: 10px; padding: 20px 16px;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+    .mo-stat:hover { border-color: rgba(140,190,255,0.4); background: rgba(30,60,130,0.45); transform: translateY(-2px); }
+    .mo-stat-val {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 32px; line-height: 1; color: #fff; margin-bottom: 8px; letter-spacing: 0.01em;
+    }
+    .mo-stat-val.a { color: var(--mo-accent-bright); }
+    .mo-stat-val.b { color: #9ed1ff; }
+    .mo-stat-val.c { color: var(--mo-warn); }
+    .mo-stat-val.d { color: #c5b6ff; }
+    .mo-stat-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mo-muted); line-height: 1.45; letter-spacing: 0.04em; }
+
+    /* ── Badge card ── */
+    .mo-badge-card {
+      display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: center;
+      background: linear-gradient(180deg, rgba(78,163,255,0.10), rgba(78,163,255,0.04)), rgba(15,32,78,0.45);
+      border: 1px solid rgba(127,192,255,0.30); border-radius: 12px;
+      padding: 22px 26px; margin: 36px 0; position: relative; overflow: hidden;
+    }
+    .mo-badge-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(220px 140px at 12% 50%, rgba(255,90,90,0.10), transparent 70%);
+      pointer-events: none;
+    }
+    .mo-badge-img { position: relative; width: 96px; height: auto; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.45)); flex-shrink: 0; }
+    .mo-badge-text { position: relative; }
+    .mo-badge-eyebrow {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--mo-accent-bright);
+      display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+    }
+    .mo-badge-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--mo-accent-bright); box-shadow: 0 0 8px var(--mo-accent-bright); }
+    .mo-badge-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 26px; line-height: 1; color: #fff; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 6px; }
+    .mo-badge-desc { font-size: 14px; line-height: 1.55; color: rgba(234,241,255,0.82); margin: 0; }
+    .mo-badge-meta { margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.10em; text-transform: uppercase; color: var(--mo-muted); display: flex; gap: 14px; flex-wrap: wrap; }
+    .mo-badge-meta b { color: var(--mo-accent); font-weight: 600; }
+
+    /* ── Divider ── */
+    .mo-divider { border: none; border-top: 1px solid rgba(140,190,255,0.14); margin: 44px 0; }
+
+    /* ── Content headings ── */
+    .modal-body h2 {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 30px; color: #fff; text-transform: uppercase; letter-spacing: 0.01em;
+      margin: 44px 0 18px; display: flex; align-items: center; gap: 14px;
+    }
+    .modal-body h2::before { content: ''; width: 28px; height: 2px; background: var(--mo-accent); }
+    .modal-body h2:first-child { margin-top: 0; }
+    .modal-body h3 {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 20px; color: rgba(255,255,255,0.92); text-transform: uppercase;
+      letter-spacing: 0.04em; margin: 30px 0 12px;
+    }
+    .modal-body p { color: rgba(234,241,255,0.85); margin-bottom: 18px; font-size: 15.5px; line-height: 1.72; }
+    .modal-body p:last-child { margin-bottom: 0; }
+    .modal-body a { color: var(--mo-accent-bright); text-decoration: none; border-bottom: 1px dashed rgba(127,192,255,0.4); }
+    .modal-body a:hover { color: #fff; border-bottom-color: #fff; }
+    .modal-body code { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; background: rgba(10,25,60,0.65); border: 1px solid rgba(140,190,255,0.18); border-radius: 4px; padding: 2px 6px; color: var(--mo-accent-bright); }
+
+    /* ── Room cards ── */
+    .mo-room-grid { display: grid; gap: 14px; margin: 24px 0; }
+    .mo-room-card {
+      background: rgba(15,35,80,0.40); border: 1px solid rgba(140,190,255,0.16);
+      border-radius: 12px; padding: 22px;
+      display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: start;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .mo-room-card:hover { border-color: rgba(140,190,255,0.34); background: rgba(25,55,120,0.45); }
+    .mo-room-card.highlight { border-color: rgba(127,192,255,0.45); background: rgba(30,70,150,0.40); }
+    .mo-room-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 19px; color: #fff; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 6px; }
+    .mo-room-desc { font-size: 14px; color: var(--mo-muted); line-height: 1.55; }
+    .mo-room-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 10px; border-radius: 5px; white-space: nowrap; }
+    .mo-badge-easy   { background: rgba(127,192,255,0.10); color: var(--mo-accent-bright); border: 1px solid rgba(127,192,255,0.30); }
+    .mo-badge-medium { background: rgba(78,163,255,0.10);  color: var(--mo-accent);        border: 1px solid rgba(78,163,255,0.35); }
+    .mo-badge-hard   { background: rgba(255,183,102,0.08); color: var(--mo-warn);           border: 1px solid rgba(255,183,102,0.30); }
+    .mo-badge-insane { background: rgba(255,122,122,0.08); color: var(--mo-danger);         border: 1px solid rgba(255,122,122,0.30); }
+    .mo-room-progress { grid-column: 1 / -1; margin-top: 8px; }
+    .mo-progress-label { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--mo-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+    .mo-progress-bar { height: 4px; background: rgba(10,25,60,0.55); border-radius: 2px; overflow: hidden; }
+    .mo-progress-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1.4s cubic-bezier(.2,.8,.2,1); }
+    .mo-fill-a { background: linear-gradient(90deg, var(--mo-accent), var(--mo-accent-bright)); box-shadow: 0 0 10px rgba(127,192,255,0.6); }
+    .mo-fill-b { background: linear-gradient(90deg, var(--mo-accent-dim), var(--mo-accent)); }
+    .mo-fill-c { background: linear-gradient(90deg, #c98b3a, var(--mo-warn)); }
+    .mo-fill-d { background: linear-gradient(90deg, #b14b4b, var(--mo-danger)); }
+
+    /* ── Callout ── */
+    .mo-callout {
+      background: rgba(20,45,100,0.30); border: 1px solid rgba(140,190,255,0.16);
+      border-left: 3px solid var(--mo-accent); border-radius: 0 10px 10px 0;
+      padding: 18px 22px; margin: 22px 0;
+    }
+    .mo-callout.warn   { border-left-color: var(--mo-warn); }
+    .mo-callout.danger { border-left-color: var(--mo-danger); }
+    .mo-callout.blue   { border-left-color: var(--mo-accent-bright); }
+    .mo-callout-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mo-accent); margin-bottom: 8px; }
+    .mo-callout.warn   .mo-callout-label { color: var(--mo-warn); }
+    .mo-callout.danger .mo-callout-label { color: var(--mo-danger); }
+    .mo-callout.blue   .mo-callout-label { color: var(--mo-accent-bright); }
+    .mo-callout p { font-size: 14.5px; margin: 0; }
+
+    /* ── Attack chain ── */
+    .mo-chain {
+      background: rgba(15,35,80,0.35); border: 1px solid rgba(140,190,255,0.16);
+      border-radius: 12px; padding: 24px; margin: 24px 0;
+    }
+    .mo-chain-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mo-muted); margin-bottom: 18px; }
+    .mo-chain-step { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+    .mo-chain-step:last-child { margin-bottom: 0; }
+    .mo-chain-num {
+      flex-shrink: 0; width: 28px; height: 28px;
+      background: rgba(78,163,255,0.12); border: 1px solid rgba(78,163,255,0.4);
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--mo-accent-bright);
+    }
+    .mo-chain-content { flex: 1; padding-top: 3px; }
+    .mo-chain-action { font-weight: 600; font-size: 15px; color: #fff; margin-bottom: 4px; }
+    .mo-chain-detail { font-size: 13.5px; color: var(--mo-muted); line-height: 1.6; }
+
+    /* ── Lesson ── */
+    .mo-lesson {
+      background: rgba(78,163,255,0.06); border: 1px solid rgba(127,192,255,0.22);
+      border-radius: 12px; padding: 22px 24px; margin: 28px 0;
+    }
+    .mo-lesson-header { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--mo-accent-bright); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 10px; }
+    .mo-lesson p { font-size: 14.5px; margin-bottom: 10px; }
+    .mo-lesson p:last-child { margin-bottom: 0; }
+
+    /* ── Tags ── */
+    .mo-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+    .mo-tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; background: rgba(10,25,60,0.55); border: 1px solid rgba(140,190,255,0.18); color: var(--mo-muted); }
+
+    /* ── Table ── */
+    .modal-body table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 14px; }
+    .modal-body th { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mo-muted); text-align: left; padding: 10px 14px; border-bottom: 1px solid rgba(140,190,255,0.22); }
+    .modal-body td { padding: 12px 14px; border-bottom: 1px solid rgba(140,190,255,0.10); color: rgba(234,241,255,0.85); vertical-align: top; }
+    .modal-body tr:last-child td { border-bottom: none; }
+    .modal-body td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--mo-accent-bright); white-space: nowrap; }
+
+    /* ── Modal footer ── */
+    .modal-footer {
+      flex-shrink: 0; padding: 16px 28px;
+      border-top: 1px solid rgba(140,190,255,0.14);
+      background: rgba(10,25,60,0.35);
+      display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .mo-footer-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--mo-dim); letter-spacing: 0.10em; text-transform: uppercase; }
+    .mo-footer-links { display: flex; gap: 18px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase; }
+    .mo-footer-links a { color: var(--mo-muted); border-bottom: none; transition: color 0.2s; }
+    .mo-footer-links a:hover { color: var(--mo-accent-bright); }
+
+    @media (max-width: 600px) {
+      .modal { height: 100vh; border-radius: 0; }
+      .overlay { padding: 0; }
+      .modal-body { padding: 24px 22px 32px; }
+      .modal-header { padding: 16px 18px; }
+      .modal-footer { padding: 14px 18px; }
+      .mo-header-title { display: none; }
+      .mo-room-card { grid-template-columns: 1fr; }
+      .mo-badge-card { grid-template-columns: 1fr; }
+      .mo-badge-img { width: 84px; }
+    }
   </style>
 </head>
 <body>
@@ -374,7 +676,15 @@
      * },
      */
     const POSTS = [
-      // add posts here
+      {
+        id: 1, date: '2026-05-17', readMin: 15,
+        category: 'Security',
+        title: "TryHackMe AI Odyssey — My First CTF",
+        excerpt: "Four rooms, five AI attack categories, one week of prep and four days of competition. Top 10% globally, Top 5% in the US — my first week on TryHackMe and my first CTF ever.",
+        tags: ['CTF', 'XSS', 'AI Security', 'TryHackMe'],
+        highlight: true, featured: true,
+        modalId: 'modal-thm',
+      },
     ];
 
     const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
@@ -388,6 +698,7 @@
       document.getElementById('featureTitle').textContent = featured.title;
       document.getElementById('featureExcerpt').textContent = featured.excerpt;
       document.getElementById('featureChips').innerHTML = featured.tags.map(t=>`<span class="chip">${t}</span>`).join('');
+      document.querySelector('.feature-cta').dataset.modal = featured.modalId || '';
     } else {
       document.querySelector('.bl-section').style.display = 'none';
     }
@@ -395,7 +706,7 @@
     // Highlights
     document.getElementById('highlights').innerHTML = POSTS.filter(p=>p.highlight).slice(0,3).map((p,i)=>{
       const d = fmtDate(p.date);
-      return `<a class="hl-card" href="#post-${p.id}">
+      return `<a class="hl-card" href="#" data-modal="${p.modalId||''}">
         <div class="hl-meta"><span class="hl-num">H / 0${i+1}</span><span class="hl-cat">${p.category}</span></div>
         <h3 class="hl-title">${p.title}</h3>
         <p class="hl-excerpt">${p.excerpt}</p>
@@ -429,7 +740,7 @@
       const feedEl = document.getElementById('feed');
       feedEl.innerHTML = filtered.length ? filtered.map(p=>{
         const d = fmtDate(p.date);
-        return `<a class="feed-row" id="post-${p.id}" href="#">
+        return `<a class="feed-row" id="post-${p.id}" href="#" data-modal="${p.modalId||''}">
           <div class="feed-date">${d.mon} ${d.day}<br/><span class="yr">${d.yr}</span></div>
           <div class="feed-main"><h3 class="feed-title">${p.title}</h3><p class="feed-snip">${p.excerpt}</p></div>
           <div class="feed-tags">${p.tags.slice(0,3).map(t=>`<span class="feed-tag">${t}</span>`).join('')}</div>
@@ -447,6 +758,332 @@
     document.getElementById('metaLast').textContent = POSTS.length
       ? fmtLong(POSTS.slice().sort((a,b)=>b.date.localeCompare(a.date))[0].date)
       : '—';
+  </script>
+
+
+  <!-- ── THM AI Odyssey Modal ── -->
+  <div class="overlay" id="modal-thm" role="dialog" aria-modal="true" aria-labelledby="thm-modal-title">
+    <div class="modal">
+
+      <header class="modal-header">
+        <div class="mo-header-id">
+          DOC.001 · CTF WRITEUP
+          <span class="mo-live"></span>
+        </div>
+        <div class="mo-header-title" id="thm-modal-title">AI Odyssey</div>
+        <button class="mo-close-btn" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal-body">
+
+        <!-- HERO -->
+        <section class="mo-hero">
+          <div class="mo-hero-tag">First CTF &middot; May 14&ndash;17, 2026</div>
+          <h1 class="mo-title">TryHackMe AI Odyssey<em>My First CTF</em></h1>
+          <div class="mo-hero-meta">
+            <span>Kelly Cheng</span>
+            <span class="dot">&middot;</span>
+            <span>May 2026</span>
+            <span class="dot">&middot;</span>
+            <span>CTF Writeup</span>
+          </div>
+          <p class="mo-hero-lead">
+            Four rooms. Five AI attack categories. One week of preparation and four days of competition.
+            This is what happened when I threw myself into TryHackMe's first AI-focused CTF as a CS freshman with no prior CTF experience.
+          </p>
+        </section>
+
+        <!-- STATS -->
+        <div class="mo-stats">
+          <div class="mo-stat"><div class="mo-stat-val a">Top 10%</div><div class="mo-stat-label">Global ranking post-CTF</div></div>
+          <div class="mo-stat"><div class="mo-stat-val b">Top 5%</div><div class="mo-stat-label">United States ranking</div></div>
+          <div class="mo-stat"><div class="mo-stat-val c">Gold</div><div class="mo-stat-label">League &mdash; promoted from Silver</div></div>
+          <div class="mo-stat"><div class="mo-stat-val d">2 / 4</div><div class="mo-stat-label">Rooms fully completed</div></div>
+        </div>
+
+        <!-- BADGE -->
+        <div class="mo-badge-card">
+          <img class="mo-badge-img" src="THM-AI_Odyssey_CTF/ai_odyssey_badge.png" alt="AI Odyssey participation badge">
+          <div class="mo-badge-text">
+            <div class="mo-badge-eyebrow">Achievement Unlocked &middot; Day 1</div>
+            <div class="mo-badge-title">AI Odyssey</div>
+            <p class="mo-badge-desc">Awarded for taking part in the AI Odyssey event. Earned early &mdash; right after completing the first tasks of Planet Vectara when the CTF first launched.</p>
+            <div class="mo-badge-meta">
+              <span><b>Epic</b> Tier</span>
+              <span>&middot;</span>
+              <span>TryHackMe</span>
+              <span>&middot;</span>
+              <span>May 14, 2026</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="mo-divider">
+
+        <!-- CONTEXT -->
+        <section>
+          <h2>Context</h2>
+          <p>I started TryHackMe the week of the CTF announcement with essentially no prior platform experience. In the few days before the competition I worked through the core networking and web fundamentals I needed &mdash; DNS, HTTP, the OSI model, TCP handshakes &mdash; then pivoted directly into THM's AI Security path to prepare for the five challenge categories.</p>
+          <p>By the time the CTF opened on May 14th I had climbed from unranked to the top 20% globally purely through pre-CTF room completion. That gave me a baseline. The CTF itself pushed it to top 15% during the competition and top 10% after final scoring.</p>
+          <div class="mo-callout blue">
+            <div class="mo-callout-label">Competition format</div>
+            <p>AI Odyssey ran Jeopardy-style &mdash; four rooms of increasing difficulty, each containing multiple tasks. No attack/defense against other players. Five categories: prompt injection, AI supply chain security, data poisoning, ML security, and agentic AI.</p>
+          </div>
+        </section>
+
+        <!-- ROOMS -->
+        <section>
+          <h2>Room Results</h2>
+          <div class="mo-room-grid">
+
+            <div class="mo-room-card highlight">
+              <div>
+                <div class="mo-room-name">Planet Vectara</div>
+                <div class="mo-room-desc">Prompt injection, XSS-based session hijacking, medical AI chatbot exploitation. Task 8 (Protocol Drift) was the hardest challenge in the competition during the opening days &mdash; only ~20 of 20,000 participants solved it initially.</div>
+              </div>
+              <div class="mo-room-badge mo-badge-easy">Easy</div>
+              <div class="mo-room-progress">
+                <div class="mo-progress-label"><span>Completion</span><span>100%</span></div>
+                <div class="mo-progress-bar"><div class="mo-progress-fill mo-fill-a" data-w="100%"></div></div>
+              </div>
+            </div>
+
+            <div class="mo-room-card highlight">
+              <div>
+                <div class="mo-room-name">Token City</div>
+                <div class="mo-room-desc">Seven-task gauntlet covering ML security, DFIR, web application security, prompt injection, and tool poisoning. All 7 tasks completed.</div>
+              </div>
+              <div class="mo-room-badge mo-badge-medium">Medium</div>
+              <div class="mo-room-progress">
+                <div class="mo-progress-label"><span>Completion</span><span>100%</span></div>
+                <div class="mo-progress-bar"><div class="mo-progress-fill mo-fill-b" data-w="100%"></div></div>
+              </div>
+            </div>
+
+            <div class="mo-room-card">
+              <div>
+                <div class="mo-room-name">Hard Room</div>
+                <div class="mo-room-desc">Advanced AI attack scenarios. Partial completion under competition time pressure.</div>
+              </div>
+              <div class="mo-room-badge mo-badge-hard">Hard</div>
+              <div class="mo-room-progress">
+                <div class="mo-progress-label"><span>Completion</span><span>20%</span></div>
+                <div class="mo-progress-bar"><div class="mo-progress-fill mo-fill-c" data-w="20%"></div></div>
+              </div>
+            </div>
+
+            <div class="mo-room-card">
+              <div>
+                <div class="mo-room-name">Insane Room</div>
+                <div class="mo-room-desc">Elite-tier AI security challenges. Significant partial completion &mdash; notable for a first CTF.</div>
+              </div>
+              <div class="mo-room-badge mo-badge-insane">Insane</div>
+              <div class="mo-room-progress">
+                <div class="mo-progress-label"><span>Completion</span><span>66%</span></div>
+                <div class="mo-progress-bar"><div class="mo-progress-fill mo-fill-d" data-w="66%"></div></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <hr class="mo-divider">
+
+        <!-- PLANET VECTARA -->
+        <section>
+          <h2>Planet Vectara &mdash; Protocol Drift</h2>
+          <div class="mo-tags">
+            <span class="mo-tag">XSS</span>
+            <span class="mo-tag">Session Hijacking</span>
+            <span class="mo-tag">Prompt Injection</span>
+            <span class="mo-tag">Flask</span>
+            <span class="mo-tag">HttpOnly</span>
+          </div>
+          <p>Protocol Drift was deceptive in the worst way &mdash; categorized as part of the Easy room, but statistically one of the hardest individual challenges in the entire competition. The premise: compromise the duty pharmacist bot's session on MedBay, a medical AI chatbot running aboard a fictional spaceship, and retrieve a hidden flag.</p>
+          <div class="mo-callout warn">
+            <div class="mo-callout-label">The trap</div>
+            <p>The challenge invites you to overthink it. HttpOnly cookies, SameSite:Lax protections, server-side session management &mdash; every surface looked locked. Two days of reconnaissance and failed XSS payloads later, the solution turned out to be far simpler than the rabbit holes suggested.</p>
+          </div>
+          <h3>What I tried (and why it failed)</h3>
+          <div class="mo-chain">
+            <div class="mo-chain-title">Attack attempts &mdash; chronological</div>
+            <div class="mo-chain-step">
+              <div class="mo-chain-num">1</div>
+              <div class="mo-chain-content">
+                <div class="mo-chain-action">Initial reconnaissance</div>
+                <div class="mo-chain-detail">Flask/Werkzeug on port 5000. Endpoints: <code>/</code>, <code>/health</code>, <code>/api/callback</code>, <code>/api/chat</code>, <code>/api/my_notes</code>, <code>/api/my_callbacks</code>. Session cookies confirmed HttpOnly and SameSite:Lax.</div>
+              </div>
+            </div>
+            <div class="mo-chain-step">
+              <div class="mo-chain-num">2</div>
+              <div class="mo-chain-content">
+                <div class="mo-chain-action">XSS payload attempts via notes</div>
+                <div class="mo-chain-detail">Injected script tags into notes visible to the pharmacist bot. Spent significant time trying to confirm whether the bot rendered HTML at all &mdash; never got clear confirmation.</div>
+              </div>
+            </div>
+            <div class="mo-chain-step">
+              <div class="mo-chain-num">3</div>
+              <div class="mo-chain-content">
+                <div class="mo-chain-action">False positive &mdash; callback pings</div>
+                <div class="mo-chain-detail">Observed pings appearing in <code>/api/my_callbacks</code> and incorrectly assumed the bot was responding to payloads. Turned out the pings were self-generated by accidentally clicking a debug sidebar link. Wasted hours on this branch.</div>
+              </div>
+            </div>
+            <div class="mo-chain-step">
+              <div class="mo-chain-num">4</div>
+              <div class="mo-chain-content">
+                <div class="mo-chain-action">Character-by-character enumeration</div>
+                <div class="mo-chain-detail">Extracted partial flag data <code>ru7opium</code> from the crew AI using a character-by-character spelling technique &mdash; confirmed as the controlled substance name embedded in the flag.</div>
+              </div>
+            </div>
+            <div class="mo-chain-step">
+              <div class="mo-chain-num">5</div>
+              <div class="mo-chain-content">
+                <div class="mo-chain-action">The actual solution</div>
+                <div class="mo-chain-detail">Two specific trigger keywords in a note activate XSS rendering by the pharmacist bot. Simple <code>document.cookie</code> exfiltration via callback. The HttpOnly concern was irrelevant &mdash; we were operating in the right context all along. Simplest payload worked.</div>
+              </div>
+            </div>
+          </div>
+          <div class="mo-lesson">
+            <div class="mo-lesson-header">Key takeaway</div>
+            <p>The most expensive mistake in this challenge was treating complexity as signal. Every time the obvious path seemed too simple, I added a layer of reasoning that moved me further from the answer.</p>
+            <p>In security, the simple explanation is usually correct. The bot renders HTML. The cookie is accessible. The callback receives it. Done. Everything else was noise I generated.</p>
+          </div>
+        </section>
+
+        <hr class="mo-divider">
+
+        <!-- TOKEN CITY -->
+        <section>
+          <h2>Token City</h2>
+          <div class="mo-tags">
+            <span class="mo-tag">ML Security</span>
+            <span class="mo-tag">DFIR</span>
+            <span class="mo-tag">Prompt Injection</span>
+            <span class="mo-tag">Tool Poisoning</span>
+            <span class="mo-tag">Agentic AI</span>
+            <span class="mo-tag">Adversarial ML</span>
+          </div>
+          <p>Seven tasks, all completed. Token City covered the full modern AI threat landscape &mdash; from machine learning pipeline manipulation through to agentic trust boundary exploitation. Each task was a self-contained attack scenario against a different AI system.</p>
+          <table>
+            <thead>
+              <tr><th>Task</th><th>Category</th><th>Core concept</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Task 1</td><td>ML Security</td><td>Adversarial feature manipulation against a trained classifier</td></tr>
+              <tr><td>Task 2</td><td>DFIR</td><td>AI-assisted forensic investigation and log analysis</td></tr>
+              <tr><td>Task 3</td><td>AI Security</td><td>Model extraction via black-box query enumeration</td></tr>
+              <tr><td>Task 4</td><td>Web App Sec</td><td>AI-integrated web application vulnerability chaining</td></tr>
+              <tr><td>Task 5</td><td>Prompt Injection</td><td>Direct and indirect injection against an LLM assistant</td></tr>
+              <tr><td>Task 6</td><td>Tool Poisoning</td><td>Compromising an AI agent's tool registry and trust chain</td></tr>
+              <tr><td>Task 7</td><td>Agentic AI</td><td>Multi-agent trust boundary exploitation via indirect injection</td></tr>
+            </tbody>
+          </table>
+          <div class="mo-callout">
+            <div class="mo-callout-label">Consistent thread</div>
+            <p>AI systems introduce novel attack surfaces that traditional security controls do not address. Model endpoints, feature stores, agent communication channels, and tool registries are all first-class attack surfaces &mdash; not afterthoughts. Every task reinforced this.</p>
+          </div>
+          <div class="mo-lesson">
+            <div class="mo-lesson-header">Key takeaway</div>
+            <p>Tool poisoning (Task 6) was the most novel concept in the competition for me. An AI agent that trusts its tool descriptions without validation inherits every vulnerability in the systems it integrates with. This is injection security applied to a new class of systems &mdash; the underlying principle is identical to SQL injection, just one abstraction layer higher.</p>
+          </div>
+        </section>
+
+        <hr class="mo-divider">
+
+        <!-- BROADER WEEK -->
+        <section>
+          <h2>The Broader Week</h2>
+          <p>The CTF didn't happen in isolation. The week leading up to it involved compressing months of foundational networking and security content into a few days &mdash; OSI model, DNS record types, HTTP headers, TCP handshake mechanics, the ATT&amp;CK framework, and the MITRE ATLAS equivalent for AI systems.</p>
+          <p>Running labs in parallel &mdash; Digital Trail (AI-assisted DFIR) and ContAInment (ransomware incident response with an embedded AI assistant) &mdash; meant the CTF concepts arrived with context rather than cold. When I hit prompt injection challenges in the competition, I'd already seen what a successful injection looks like in a forensic log.</p>
+          <div class="mo-callout danger">
+            <div class="mo-callout-label">Platform progress</div>
+            <p>Started the week unranked. Ended the CTF in the top 10% globally and top 5% in the United States. Promoted from Silver League to Gold League after a tight race for first place in Silver. This was my first week on TryHackMe and my first CTF.</p>
+          </div>
+        </section>
+
+        <hr class="mo-divider">
+
+        <!-- WHAT'S NEXT -->
+        <section>
+          <h2>What's Next</h2>
+          <p>The CTF confirmed that AI security is where I want to specialize. The attack surfaces are novel, the field is underpopulated with people who understand both the ML fundamentals and the security methodology, and the rate of change means that staying current requires continuous hands-on practice &mdash; not just reading.</p>
+          <p>Immediate next steps: completing the TryHackMe Jr Penetration Tester path, building out the HackTheBox profile, and writing detailed technical writeups for each of the challenge categories I encountered this week. The full technical reports for Planet Vectara and Token City are available separately.</p>
+          <div class="mo-callout blue">
+            <div class="mo-callout-label">Career direction</div>
+            <p>Purple team with an AI security specialization. The combination of offensive methodology and AI attack surface knowledge is genuinely rare &mdash; building toward that as a UW CS student with a planned trajectory through eJPT, PNPT, and OSCP over the next few years.</p>
+          </div>
+        </section>
+
+      </div><!-- /.modal-body -->
+
+      <footer class="modal-footer">
+        <span class="mo-footer-text">Kelly Cheng &mdash; 2026</span>
+        <div class="mo-footer-links">
+          <a href="https://kellyjcheng.github.io/">Website</a>
+          <a href="https://github.com/kellyjcheng">GitHub</a>
+          <a href="#">LinkedIn</a>
+        </div>
+      </footer>
+
+    </div><!-- /.modal -->
+  </div><!-- /.overlay#modal-thm -->
+
+  <script>
+    function openModal(id) {
+      const ol = document.getElementById(id);
+      if (!ol) return;
+      ol.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(() => {
+        ol.querySelectorAll('.mo-progress-fill').forEach(b => { b.style.width = b.dataset.w || '0%'; });
+      });
+      const body = ol.querySelector('.modal-body');
+      if (body) body.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    function closeModal(ol) {
+      ol.classList.remove('open');
+      document.body.style.overflow = '';
+      ol.querySelectorAll('.mo-progress-fill').forEach(b => { b.style.width = '0%'; });
+    }
+
+    document.querySelector('.feature-cta').addEventListener('click', function(e) {
+      e.preventDefault();
+      const id = this.dataset.modal;
+      if (id) openModal(id);
+    });
+
+    document.getElementById('highlights').addEventListener('click', function(e) {
+      const card = e.target.closest('.hl-card');
+      if (!card) return;
+      e.preventDefault();
+      const id = card.dataset.modal;
+      if (id) openModal(id);
+    });
+
+    document.getElementById('feed').addEventListener('click', function(e) {
+      const row = e.target.closest('.feed-row');
+      if (!row) return;
+      e.preventDefault();
+      const id = row.dataset.modal;
+      if (id) openModal(id);
+    });
+
+    document.querySelectorAll('.mo-close-btn').forEach(btn => {
+      btn.addEventListener('click', () => closeModal(btn.closest('.overlay')));
+    });
+
+    document.querySelectorAll('.overlay').forEach(ol => {
+      ol.addEventListener('click', e => { if (e.target === ol) closeModal(ol); });
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.querySelectorAll('.overlay.open').forEach(closeModal);
+    });
   </script>
 
 </body>
