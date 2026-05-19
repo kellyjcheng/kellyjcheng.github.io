@@ -240,10 +240,28 @@
      */
     const ENTRIES = [
       {
+        id:      'tryhackme-ai-odyssey-token-city',
+        type:    'ctf',
+        title:   'TryHackMe AI Odyssey Token City',
+        period:  'May 17, 2026',
+        status:  'complete',
+        stack:   ['CTF', 'ML Security', 'DFIR', 'Prompt Injection', 'Tool Poisoning', 'Agentic AI', 'TryHackMe'],
+        summary: "Token City is a seven-task Medium-difficulty room in the AI Odyssey CTF, covering the full modern AI threat landscape — from adversarial machine learning and AI-assisted DFIR through model extraction, web application AI integration, prompt injection, tool poisoning, and multi-agent trust boundary exploitation via indirect injection. All seven tasks were completed.",
+        subtopics: [
+          {
+            tag:   'A.1',
+            title: 'Token City Report',
+            pages: 'Full report',
+            desc:  'Complete CTF writeup covering all seven tasks: adversarial ML feature manipulation, AI-assisted DFIR, model extraction via black-box enumeration, web app AI vulnerability chaining, direct and indirect prompt injection, tool poisoning, and multi-agent trust boundary exploitation.',
+            doc:   'docs/AI_Odyssey_CTF-Token_City_Report.docx',
+          },
+        ],
+      },
+      {
         id:      'tryhackme-ai-odyssey-task8',
         type:    'ctf',
         title:   'TryHackMe AI Odyssey Planet Vectara Task 8',
-        period:  'May 2026',
+        period:  'May 14, 2026',
         status:  'complete',
         stack:   ['CTF', 'XSS', 'LLM', 'AI Security', 'TryHackMe'],
         summary: "EPOCH-1 MedBay is a shipboard medical AI chatbot vulnerable to LLM05 — Insecure Output Handling, where a server-side pharmacist bot renders filed crew notes as HTML without sanitisation. Exploiting this required identifying two trigger keywords — URGENT and ru7opium — which route a note to senior pharmacist review and activate HTML rendering, allowing a stored XSS payload to fire in the bot's context. After 25+ attempts across multiple sessions, the winning payload successfully exfiltrated the pharmacist's session cookie via /api/my_callbacks.",
@@ -252,7 +270,7 @@
             tag:   'A.1',
             title: 'Protocol Drift Report',
             pages: 'Full report',
-            desc:  'Complete CTF writeup documenting the LLM05 vulnerability, trigger keyword discovery, payload development, and successful session cookie exfiltration via stored XSS. Note that flags have been redacted from the report.',
+            desc:  'Complete CTF writeup documenting the LLM05 vulnerability, trigger keyword discovery, payload development, and successful session cookie exfiltration via stored XSS.',
             doc:   'docs/Protocol_Drift_Report.docx',
           },
         ],
@@ -301,7 +319,7 @@
                 <a class="sub-cta" href="${s.doc}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
                   <span style="display:inline-flex;align-items:center;gap:8px">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="1.5" width="9" height="11" rx="0.5"/><path d="M4.5 5h5M4.5 7.5h5M4.5 10h3"/></svg>
-                    Open Document
+                    Download Document
                   </span>
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l6-6M5 3h4v4"/></svg>
                 </a>
