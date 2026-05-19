@@ -94,7 +94,7 @@ nav a {
   color: var(--text);
   text-decoration: none;
   font-family: 'Rajdhani', sans-serif;
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 1.6vw, 1.5rem);
   font-weight: 600;
   letter-spacing: 0.04em;
   padding: 0.25rem 0.6rem;
@@ -105,6 +105,81 @@ nav a {
 nav a:hover,
 nav a.active {
   color: var(--accent);
+}
+
+/* Hamburger toggle — hidden on desktop */
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: 1px solid rgba(78, 184, 224, 0.35);
+  border-radius: 6px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+.nav-toggle:hover { border-color: rgba(78, 184, 224, 0.7); }
+
+.nav-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+
+/* Hamburger → X when menu is open */
+nav.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+nav.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+nav.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  nav {
+    padding: 0 1.25rem;
+  }
+  .nav-toggle {
+    display: flex;
+  }
+  nav ul {
+    display: none;
+    position: absolute;
+    top: 90px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--nav-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(78, 184, 224, 0.18);
+    padding: 0.5rem 0;
+  }
+  nav.nav-open ul {
+    display: flex;
+  }
+  nav ul li {
+    display: block;
+  }
+  nav ul li:not(:last-child)::after {
+    display: none;
+  }
+  nav ul li:not(:last-child) {
+    border-bottom: 1px solid rgba(78, 184, 224, 0.1);
+  }
+  nav a {
+    display: block;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    padding: 0.85rem 1.25rem;
+  }
 }
 
 /* ---------- Page Wrapper ---------- */
@@ -282,7 +357,7 @@ nav a.active {
 .home-hero p:not(.home-subtitle),
 .about-hero p:not(.home-subtitle) {
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.92rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.25rem);
   font-weight: 400;
   color: var(--subtext);
   line-height: 1.6;

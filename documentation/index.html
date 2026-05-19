@@ -98,7 +98,7 @@
 
     .doc-title {
       font-family: 'Oswald', sans-serif; text-transform: uppercase;
-      font-size: 52px; line-height: 1.05; font-weight: 700;
+      font-size: clamp(2rem, 3.7vw, 3.25rem); line-height: 1.05; font-weight: 700;
       color: #fff; margin: 0 0 18px; position: relative; padding-bottom: 16px;
     }
     .doc-title::after {
@@ -151,7 +151,7 @@
     .sub-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
     .sub-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dc-cyan); letter-spacing: 0.18em; }
     .sub-pages { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--dc-ink-mute); letter-spacing: 0.1em; flex-shrink: 0; }
-    .sub-title { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: 20px; line-height: 1.15; font-weight: 600; color: #fff; margin: 0 0 12px; }
+    .sub-title { font-family: 'Oswald', sans-serif; text-transform: uppercase; font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.15; font-weight: 600; color: #fff; margin: 0 0 12px; }
     .sub-desc { font-family: 'Inter', sans-serif; color: var(--dc-ink-dim); font-size: 13px; line-height: 1.6; margin: 0 0 20px; flex: 1; }
     .sub-cta {
       display: inline-flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -168,7 +168,6 @@
       .toc { position: static; max-height: none; }
       .subtopics { grid-template-columns: 1fr; }
       .docs-intro { padding: 2rem 1.5rem 1.5rem; }
-      .doc-title { font-size: 38px; }
     }
   </style>
 </head>
@@ -176,6 +175,9 @@
 
   <!-- ── Navigation ── -->
   <nav>
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
     <ul>
       <li><a href="../index.html">Home</a></li>
       <li><a href="../labs-projects/index.html">Labs &amp; Projects</a></li>
@@ -329,5 +331,6 @@
     updateActive();
   </script>
 
+  <script src="../nav.js"></script>
 </body>
 </html>
