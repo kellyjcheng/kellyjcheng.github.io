@@ -195,7 +195,6 @@
       <div class="docs-meta">
         <span><b id="metaDocs">—</b> Documents</span>
         <span><b id="metaProjects">—</b> Projects</span>
-        <span><b id="metaComps">—</b> Competitions</span>
         <span><b>2026</b> Current archive</span>
       </div>
     </section>
@@ -259,7 +258,7 @@
       // add entries here
     ];
 
-    const typeLabel = { project:'Project', competition:'Competition', cert:'Certification' };
+    const typeLabel = { project:'Project', competition:'Competition', cert:'Certification', ctf:'CTF Writeup' };
 
     // TOC
     document.getElementById('tocList').innerHTML = ENTRIES.map((e,i)=>`
@@ -310,10 +309,12 @@
         </article>`;
     }).join('');
 
+    // Sort entries newest first
+    ENTRIES.sort((a,b) => new Date(b.period.split('·')[0].trim()) - new Date(a.period.split('·')[0].trim()));
+
     // Meta counts
     document.getElementById('metaDocs').textContent     = ENTRIES.reduce((a,e)=>a+e.subtopics.length,0);
     document.getElementById('metaProjects').textContent = ENTRIES.filter(e=>e.type==='project').length;
-    document.getElementById('metaComps').textContent    = ENTRIES.filter(e=>e.type==='competition').length;
 
     // Scroll-spy
     const tocLinks = Array.from(document.querySelectorAll('.toc-link'));

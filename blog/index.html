@@ -561,7 +561,6 @@
       <p class="blog-sub">Writeups, lab notes, and reflections from my cybersecurity and computer science work — what I built, what broke, and what I learned along the way.</p>
       <div class="blog-meta">
         <span><b id="metaCount">—</b> POSTS</span>
-        <span><b>5</b> CATEGORIES</span>
         <span><b id="metaLast">—</b> LAST UPDATE</span>
       </div>
     </section>
@@ -704,7 +703,7 @@
     }
 
     // Highlights
-    document.getElementById('highlights').innerHTML = POSTS.filter(p=>p.highlight).slice(0,3).map((p,i)=>{
+    document.getElementById('highlights').innerHTML = POSTS.filter(p=>p.highlight).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3).map((p,i)=>{
       const d = fmtDate(p.date);
       return `<a class="hl-card" href="#" data-modal="${p.modalId||''}">
         <div class="hl-meta"><span class="hl-num">H / 0${i+1}</span><span class="hl-cat">${p.category}</span></div>
